@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Crocos</string>
+    <string name="email_hint">Email ...</string>
+    <string name="pass_hint">Password ...</string>
+    <string name="btn_Login">Sign in</string>
+    <string name="logo_desc">Login Image</string>
+</resources>
