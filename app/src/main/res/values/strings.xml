@@ -1,7 +1,16 @@
 <resources>
-    <string name="app_name">Crocos</string>
+    <string name="app_name">Nairu</string>
     <string name="email_hint">Email ...</string>
     <string name="pass_hint">Password ...</string>
     <string name="btn_Login">Sign in</string>
     <string name="logo_desc">Login Image</string>
+    <string name="bottom_join_text">Join</string>
+    <string name="bottom_profile_text">My profile</string>
+    <string name="bottom_history_text">History</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="etSessionPin">Session Pin ...</string>
+    <string name="btnJoin">Join</string>
+    <string name="content_img_Welcome">Welcome for user</string>
 </resources>
