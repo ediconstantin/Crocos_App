@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements Constant {
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPreferences;
     private String email;
+    private String firstname;
+    private String lastname;
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
         checkIfLoggedIn();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("341286120979-e7a9bcsub87t5vjo3438pbjgumvudlpb.apps.googleusercontent.com")
+                .requestIdToken(Constant.APP_KEY)
                 .requestEmail()
                 .build();
 
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
         int logged = sharedPreferences.getInt(Constant.LOGGED_IN, 0);
         if(logged == 1){
             email = sharedPreferences.getString(Constant.EMAIL, "");
+
             loginToApp();
         }
     }
@@ -94,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements Constant {
             String message = JSONifier.StringToJSON(new String[]{"token"}, new String[]{account.getIdToken()});
 
             email = account.getEmail();
+            firstname = account.getGivenName();
+            lastname = account.getFamilyName();
 
             executeHttpHandler(message);
 
@@ -125,7 +130,14 @@ public class MainActivity extends AppCompatActivity implements Constant {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(Constant.LOGGED_IN, 1);
         editor.putString(Constant.API_KEY,jsonMap.get("token"));
+        editor.putString(Constant.IS_ACTIVE, jsonMap.get("isActive"));
+        editor.putString(Constant.IS_ADMIN, jsonMap.get("isAdmin"));
+        editor.putString(Constant.IS_PROF, jsonMap.get("isProf"));
+        editor.putString(Constant.GROUP, jsonMap.get("group"));
+        editor.putString(Constant.SERIES, jsonMap.get("series"));
         editor.putString(Constant.EMAIL, email);
+        editor.putString(Constant.FIRSTNAME, firstname);
+        editor.putString(Constant.LASTNAME, lastname);
 
         editor.apply();
 
@@ -139,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
             intent = new Intent(this, TeacherActivity.class);
             startActivity(intent);
             finish();
-        } else if(email.contains("@stud.ase.ro")){
+        } else {
             intent = new Intent(this, StudentActivity.class);
             startActivity(intent);
             finish();

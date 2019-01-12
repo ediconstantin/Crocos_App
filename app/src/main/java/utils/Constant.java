@@ -3,7 +3,7 @@ package utils;
 public interface Constant {
 
     //Settings
-
+    String APP_KEY = "341286120979-cj89l8eaancpofvvop0l3qs78gfp3rqk.apps.googleusercontent.com";
 
 
     //RESULT CODES
@@ -23,4 +23,11 @@ public interface Constant {
     String LOGGED_IN = "LOGGED_IN";
     String API_KEY = "API_KEY";
     String EMAIL = "EMAIL";
+    String FIRSTNAME = "FIRSTNAME";
+    String LASTNAME = "LASTNAME";
+    String IS_ADMIN = "IS_ADMIN";
+    String IS_PROF = "IS_PROF";
+    String IS_ACTIVE = "IS_ACTIVE";
+    String GROUP = "GROUP";
+    String SERIES = "SERIES";
 }
