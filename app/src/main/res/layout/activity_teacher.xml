@@ -7,17 +7,23 @@
     tools:context=".TeacherActivity">
 
 
-    <TextView
-        android:id="@+id/textView"
+
+    <FrameLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="210dp"
-        android:text="Teacher page"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="245dp" />
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_menu_teacher" />
+
 
     <Button
         android:id="@+id/btnSignOut"
