@@ -1,97 +1,115 @@
 package ro.ase.pdm.crocos;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+import utils.Constant;
+import utils.HTTPHandler;
+import utils.HTTPResponse;
+import utils.JSONifier;
 
-    private EditText nEmailField;
-    private EditText nPasswordField;
-    private Button nLoginBtn;
-    private ProgressBar nLoginProgress;
-    private FirebaseAuth nAuth;
+public class MainActivity extends AppCompatActivity implements Constant {
 
+    private GoogleSignInClient mGoogleSignInClient;
+    private String apiKey;
+
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        nAuth = FirebaseAuth.getInstance();
+        checkIfLoggedIn();
 
-        nEmailField = (EditText)findViewById(R.id.etEmail);
-        nPasswordField = (EditText)findViewById(R.id.etPass);
-        nLoginBtn = (Button)findViewById(R.id.btnLogin);
-        nLoginProgress = (ProgressBar)findViewById(R.id.login_progress);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("341286120979-e7a9bcsub87t5vjo3438pbjgumvudlpb.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
 
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        nLoginBtn.setOnClickListener(new View.OnClickListener() {
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_WIDE);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String email = nEmailField.getText().toString();
-                String pass = nPasswordField.getText().toString();
-
-                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)){
-                    Toast.makeText(MainActivity.this, "At least one field is empty", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.sign_in_button:
+                        signIn();
+                        break;
                 }
-
-                else if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(pass)){
-                    nLoginProgress.setVisibility(View.VISIBLE);
-                    nAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if(task.isSuccessful()) {
-                                sentToMainScene();
-                            }
-                            else {
-                                String errormessage = task.getException().getMessage();
-                                Toast.makeText(MainActivity.this, errormessage, Toast.LENGTH_LONG).show();
-                            }
-                            nLoginProgress.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-
-                }
+            }
         });
+    }
 
+    private void checkIfLoggedIn(){
+        //check if the preference is set on logged In
+        //get the apiKey
+        //loginToApp();
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_RESULT_CODE);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = nAuth.getCurrentUser();
-        if(currentUser!=null){
-            sentToMainScene();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GOOGLE_SIGN_IN_RESULT_CODE) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+
+            //save the key in preferences so the user can be logged in immediately
         }
     }
 
-    private void sentToMainScene(){
-        if(nEmailField.getText().toString().toLowerCase().contains("@csie.ase.ro")){
-            startActivity(new Intent(MainActivity.this, TeacherActivity.class));
-            finish();
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            //call the api
+            String message = JSONifier.StringToJSON(new String[]{"token"}, new String[]{account.getIdToken()});
+
+            executeHttpHandler(message);
+
+        } catch (ApiException e) {
+            Toast.makeText(getApplicationContext(),  "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
         }
-        if(nEmailField.getText().toString().toLowerCase().contains("@stud.ase.ro")){
-            startActivity(new Intent(MainActivity.this,StudentActivity.class));
-            finish();
-        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void executeHttpHandler(String message){
+        HTTPHandler httpHandler = new HTTPHandler(){
+            @Override
+            protected void onPostExecute(HTTPResponse response){
+                loginToApp(response);
+            }
+        };
+
+        httpHandler.execute(POST_METHOD, API_REGISTER_URL + "/login", message);
+    }
+
+    private void loginToApp(HTTPResponse response){
+        Toast.makeText(getApplicationContext(), response.getResponse(), Toast.LENGTH_SHORT).show();
+        //save the loggedIn to true
     }
 
     public void hideKeyboard(View view) {
