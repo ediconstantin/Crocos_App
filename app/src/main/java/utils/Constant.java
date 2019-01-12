@@ -4,6 +4,8 @@ public interface Constant {
 
     //Settings
 
+
+
     //RESULT CODES
     int GOOGLE_SIGN_IN_RESULT_CODE = 101;
 
@@ -17,6 +19,8 @@ public interface Constant {
     String POST_METHOD = "POST";
 
     //Preferences
+    String NAIRU_PREFERENCES = "NAIRU_PREFERENCES";
     String LOGGED_IN = "LOGGED_IN";
     String API_KEY = "API_KEY";
+    String EMAIL = "EMAIL";
 }

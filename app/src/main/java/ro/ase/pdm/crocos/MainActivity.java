@@ -3,6 +3,7 @@ package ro.ase.pdm.crocos;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Map;
+
 import utils.Constant;
 import utils.HTTPHandler;
 import utils.HTTPResponse;
@@ -25,7 +28,8 @@ import utils.JSONifier;
 public class MainActivity extends AppCompatActivity implements Constant {
 
     private GoogleSignInClient mGoogleSignInClient;
-    private String apiKey;
+    private SharedPreferences sharedPreferences;
+    private String email;
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements Constant {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
 
         checkIfLoggedIn();
 
@@ -59,9 +65,11 @@ public class MainActivity extends AppCompatActivity implements Constant {
     }
 
     private void checkIfLoggedIn(){
-        //check if the preference is set on logged In
-        //get the apiKey
-        //loginToApp();
+        int logged = sharedPreferences.getInt(Constant.LOGGED_IN, 0);
+        if(logged == 1){
+            email = sharedPreferences.getString(Constant.EMAIL, "");
+            loginToApp();
+        }
     }
 
     private void signIn() {
@@ -76,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements Constant {
         if (requestCode == GOOGLE_SIGN_IN_RESULT_CODE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-
-            //save the key in preferences so the user can be logged in immediately
         }
     }
 
@@ -85,8 +91,9 @@ public class MainActivity extends AppCompatActivity implements Constant {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            //call the api
             String message = JSONifier.StringToJSON(new String[]{"token"}, new String[]{account.getIdToken()});
+
+            email = account.getEmail();
 
             executeHttpHandler(message);
 
@@ -100,16 +107,43 @@ public class MainActivity extends AppCompatActivity implements Constant {
         HTTPHandler httpHandler = new HTTPHandler(){
             @Override
             protected void onPostExecute(HTTPResponse response){
-                loginToApp(response);
+                if(response.getResult()){
+                    savePreferences(response);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
         httpHandler.execute(POST_METHOD, API_REGISTER_URL + "/login", message);
     }
 
-    private void loginToApp(HTTPResponse response){
-        Toast.makeText(getApplicationContext(), response.getResponse(), Toast.LENGTH_SHORT).show();
-        //save the loggedIn to true
+    private void savePreferences(HTTPResponse response){
+
+        Map<String, String> jsonMap = JSONifier.SimpleJSONToMap(response.getResponse());
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(Constant.LOGGED_IN, 1);
+        editor.putString(Constant.API_KEY,jsonMap.get("token"));
+        editor.putString(Constant.EMAIL, email);
+
+        editor.apply();
+
+        loginToApp();
+    }
+
+    private void loginToApp(){
+        Intent intent;
+
+        if(email.contains("@csie.ase.ro")){
+            intent = new Intent(this, TeacherActivity.class);
+            startActivity(intent);
+            finish();
+        } else if(email.contains("@stud.ase.ro")){
+            intent = new Intent(this, StudentActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void hideKeyboard(View view) {
