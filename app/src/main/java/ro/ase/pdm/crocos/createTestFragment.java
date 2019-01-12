@@ -45,7 +45,4 @@ public class createTestFragment extends Fragment {
 
         return rootView;
     }
-
-
-
 }

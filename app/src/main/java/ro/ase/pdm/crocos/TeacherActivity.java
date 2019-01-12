@@ -17,6 +17,7 @@ public class TeacherActivity extends AppCompatActivity {
     private BottomNavigationView mainBottomNav;
     private Button nSignOut;
     private QuizFragment quizFragment;
+    private Button createTestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class TeacherActivity extends AppCompatActivity {
         mainBottomNav.setSelectedItemId(R.id.itmQuizz);
 
         quizFragment = new QuizFragment();
+
+        createTestButton = findViewById(R.id.createTestButton);
 
         replaceFragment(quizFragment);
 
@@ -54,6 +57,16 @@ public class TeacherActivity extends AppCompatActivity {
                 //FirebaseAuth.getInstance().signOut();
                 //finish();
                 startActivity(new Intent(TeacherActivity.this, AboutActivity.class));
+            }
+        });
+
+        createTestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment createTestFragment = new createTestFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.mainContainer, createTestFragment);
+                fragmentTransaction.commit();
             }
         });
     }

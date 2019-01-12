@@ -18,4 +18,23 @@
     <string name="Group">Group:</string>
     <string name="UserImage">Image for user\'s profile</string>
     <string name="buttonCreateQuiz">New quiz</string>
+    <string name="TestName">Name:</string>
+    <string name="TestCategory">Category:</string>
+    <string name="TestDuration">Duration:</string>
+    <string name="TestnoQuestionsNumber">Questions no: </string>
+    <string name="TestRetries">Retries:</string>
+    <string name="TestBackwards">Backwards:</string>
+    <string name="TestPrivacy">Privacy:</string>
+    <string name="SelectCategory">Select category...</string>
+    <string name="TestNameHint">Type test name...</string>
+    <string name="TestDurationHint">Type test duration...</string>
+    <string name="TestQuestionsNoHint">Type number...</string>
+    <string name="TestRetriesNo">Type retries number...</string>
+    <string name="YesValue">Yes</string>
+    <string name="NoValue">No</string>
+    <string name="PublicValue">Public</string>
+    <string name="PrivateValue">Private</string>
+    <string name="ButtonAdd">Add</string>
+    <string name="itmTest">Test</string>
+    <string name="CreateTestButton">Create Test</string>
 </resources>
