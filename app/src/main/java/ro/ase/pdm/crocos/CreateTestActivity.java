@@ -26,6 +26,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
     private SharedPreferences sharedPreferences;
     private boolean editing;
     private List<Category> categories;
+    private Test test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
             protected void onPostExecute(HTTPResponse response){
                 if(response.getResult()){
                     categories = JSONifier.jsonToCategories(response.getResponse());
-                    //put data inside the categories element
+                    //put data inside the categories spinner
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                 }
@@ -102,20 +103,20 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 @Override
                 protected void onPostExecute(HTTPResponse response){
                     if(response.getResult()){
-                        //transform the test, questions and categories to elements
-                        Map<String, String> jsonMap = JSONifier.SimpleJSONToMap(response.getResponse());
-                        updateUI(jsonMap);
+                        test = JSONifier.jsonToTest(response.getResponse());
+                        updateUI();
                     } else {
                         Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                     }
                 }
             };
-
             httpHandler.execute(GET_METHOD, API_URL + "/test/" + testId);
         }
     }
 
-    private void updateUI(Map<String, String> jsonValues){
+    private void updateUI(){
+        //we have the Test which contains a test, it's category and it's questions
+
         //the received string contains arrays so you have to modify the jsonifier methods
         //you also have to send the received data in the questions activity
         //to not make another api call
@@ -126,11 +127,12 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         Test createTest = new Test();
 
         createTest.setName(findViewById(R.id.etName).toString());
+        createTest.setDuration(Integer.parseInt(findViewById(R.id.etDuration).toString()));
+        createTest.setQuestionsNo(Integer.parseInt(findViewById(R.id.etQuestionsNo).toString()));
+        createTest.setRetries(Integer.parseInt(findViewById(R.id.etRetries).toString()));
+
         //take the category from the array
         //createTest.setCategory(findViewById();
-        createTest.setDuration(findViewById(R.id.etDuration).toString());
-        createTest.setQuestionsNo(findViewById(R.id.etQuestionsNo).toString());
-        createTest.setRetries(findViewById(R.id.etRetries).toString());
 
         //data from radio buttons
 
