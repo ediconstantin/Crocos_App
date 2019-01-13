@@ -9,10 +9,11 @@ public interface Constant {
 
     //RESULT CODES
     int GOOGLE_SIGN_IN_RESULT_CODE = 101;
+    int CREATE_TEST_REQUEST_CODE = 102;
 
 
     //API URL
-    String API_REGISTER_URL = "http://35.246.138.38";
+    String API_URL = "http://35.246.138.38";
 
 
     //HTTP Methods
@@ -31,4 +32,5 @@ public interface Constant {
     String IS_ACTIVE = "IS_ACTIVE";
     String GROUP = "GROUP";
     String SERIES = "SERIES";
+    String CREATE_TEST_ID = "CREATE_TEST_ID";
 }

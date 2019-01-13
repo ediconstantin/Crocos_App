@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
             }
         };
 
-        httpHandler.execute(POST_METHOD, API_REGISTER_URL + "/login", message);
+        httpHandler.execute(POST_METHOD, API_URL + "/login", message);
     }
 
     private void savePreferences(HTTPResponse response){
