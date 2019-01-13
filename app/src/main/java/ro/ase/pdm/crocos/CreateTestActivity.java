@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import entities.Category;
+import entities.GlobalVar;
 import entities.Test;
 import utils.Constant;
 import utils.HTTPHandler;
@@ -79,7 +81,6 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                             intent.putExtra(CURRENT_TEST, test);
 
                             startActivityForResult(intent, CREATE_TEST_REQUEST_CODE);
-
                         } else {
                             Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(CreateTestActivity.this, QuestionsActivity.class));
@@ -88,6 +89,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 };
 
                 String jsonData = extractData();
+                Log.w("AOLEO", jsonData);
 
                 if(!editing){
                     httpHandler.execute(POST_METHOD, API_URL + "/test", jsonData);
@@ -127,21 +129,9 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         boolean editing = intent.getBooleanExtra("isEditing", false);
 
         if(editing){
-            int testId = sharedPreferences.getInt(CREATE_TEST_ID, 0);
-
-            @SuppressLint("StaticFieldLeak")
-            HTTPHandler httpHandler = new HTTPHandler(){
-                @Override
-                protected void onPostExecute(HTTPResponse response){
-                    if(response.getResult()){
-                        test = JSONifier.jsonToTest(response.getResponse());
-                        updateUI();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            };
-            httpHandler.execute(GET_METHOD, API_URL + "/test/" + testId);
+            //you have to send the test as intent everytime
+            test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+            updateUI();
         }
     }
 
@@ -173,10 +163,11 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         Test createTest = new Test();
 
-        createTest.setName(findViewById(R.id.etName).toString());
-        createTest.setDuration(Integer.parseInt(findViewById(R.id.etDuration).toString()));
-        createTest.setQuestionsNo(Integer.parseInt(findViewById(R.id.etQuestionsNo).toString()));
-        createTest.setRetries(Integer.parseInt(findViewById(R.id.etRetries).toString()));
+        createTest.setName(((TextView)findViewById(R.id.etName)).getText().toString());
+
+        createTest.setDuration(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
+        createTest.setQuestionsNo(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
+        createTest.setRetries(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
 
         createTest.setCategory((Category)spinner.getSelectedItem());
 
@@ -195,10 +186,11 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*
         if (requestCode == CREATE_TEST_REQUEST_CODE) {
             editing = true;
             loadCategories();
             checkIfEditing();
-        }
+        }*/
     }
 }

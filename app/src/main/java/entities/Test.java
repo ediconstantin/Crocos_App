@@ -9,6 +9,7 @@ public class Test implements Serializable {
 
     private int id;
     private String name;
+    private String description;
     private Category category;
     private int duration;
     private int questionsNo;
@@ -82,6 +83,14 @@ public class Test implements Serializable {
         this.feedback = feedback;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }
@@ -99,9 +108,14 @@ public class Test implements Serializable {
     }
 
     public String toJSON(){
-        return JSONifier.StringToJSON(new String[]{"name", "category", "duration", "questionsNo",
-        "retries", "backwards", "privacy"}, new String[]{name, category.getName(), String.valueOf(duration),
-                String.valueOf(questionsNo), String.valueOf(retries),
-        backwards.toString(), privacy.toString()});
+        return JSONifier.StringToJSON(new String[]{"name", "description", "category_id", "duration", "questionsNumber",
+        "retries", "backwards", "privacy", "feedback"}, new String[]{name, description,
+                String.valueOf(category.getId()),
+                String.valueOf(duration),
+                String.valueOf(questionsNo),
+                String.valueOf(retries),
+                backwards.toString(),
+                privacy.toString(),
+                "1"});
     }
 }

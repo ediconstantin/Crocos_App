@@ -2,7 +2,7 @@ package entities;
 
 import java.io.Serializable;
 
-public class Question {
+public class Question implements Serializable{
 
     private int id;
     private String question;

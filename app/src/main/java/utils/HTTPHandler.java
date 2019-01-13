@@ -57,7 +57,7 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
                     out.close();
                     break;
                 case PUT_METHOD:
-                    URLConnection.setRequestMethod("POST");
+                    URLConnection.setRequestMethod("PUT");
                     URLConnection.setDoInput(true);
                     OutputStream outP = URLConnection.getOutputStream();
                     OutputStreamWriter outWR = new OutputStreamWriter(outP, "UTF-8");

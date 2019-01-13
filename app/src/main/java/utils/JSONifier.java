@@ -21,8 +21,9 @@ public class JSONifier {
             StringBuilder builder = new StringBuilder();
             builder.append("{");
             for(int i=0; i<properties.length; i++){
-                if(android.text.TextUtils.isDigitsOnly(values[i])){
-                    builder.append("\"" + properties[i] + ":" + values[i]);
+                if(android.text.TextUtils.isDigitsOnly(values[i]) || values[i].equals("true")
+                        || values[i].equals("false")){
+                    builder.append("\"" + properties[i] + "\":" + values[i]);
                 } else {
                     builder.append("\"" + properties[i] + "\":\"" + values[i] + "\"");
                 }
