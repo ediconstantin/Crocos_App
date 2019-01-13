@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Map;
 
+import entities.GlobalVar;
 import utils.Constant;
 import utils.HTTPHandler;
 import utils.HTTPResponse;
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements Constant {
         int logged = sharedPreferences.getInt(Constant.LOGGED_IN, 0);
         if(logged == 1){
             email = sharedPreferences.getString(Constant.EMAIL, "");
-
+            String token = sharedPreferences.getString(Constant.API_KEY, "");
+            GlobalVar.getInstance().setAppKey(token);
             loginToApp();
         }
     }
@@ -129,6 +131,10 @@ public class MainActivity extends AppCompatActivity implements Constant {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(Constant.LOGGED_IN, 1);
+
+        //singleton to save appKey
+        GlobalVar.getInstance().setAppKey(jsonMap.get("token"));
+
         editor.putString(Constant.API_KEY,jsonMap.get("token"));
         editor.putString(Constant.IS_ACTIVE, jsonMap.get("isActive"));
         editor.putString(Constant.IS_ADMIN, jsonMap.get("isAdmin"));

@@ -32,6 +32,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_test);
+
         loadCategories();
 
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
@@ -115,7 +116,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
     }
 
     private void updateUI(){
-        //we have the Test which contains a test, it's category and it's questions
+        //we have the Test which contains a test, its category and its questions
 
         //the received string contains arrays so you have to modify the jsonifier methods
         //you also have to send the received data in the questions activity

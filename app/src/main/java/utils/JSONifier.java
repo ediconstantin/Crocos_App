@@ -140,7 +140,6 @@ public class JSONifier {
         return question;
 
     }
-    //json to test
 
     public static Test jsonToTest(String jsonData){
         Test test = new Test();

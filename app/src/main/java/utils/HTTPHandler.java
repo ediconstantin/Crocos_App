@@ -11,6 +11,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import entities.GlobalVar;
+
 public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implements Constant{
 
     private HttpURLConnection URLConnection;
@@ -31,11 +33,11 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
             url = new URL(options[1]);
             URLConnection = (HttpURLConnection)url.openConnection();
 
-            /* retrieve from preferences if auth is present
-            if( != null){
-                URLConnection.setRequestProperty("Authorization", "Bearer " + options[1]);
+            if(!GlobalVar.getInstance().getInitialized()){
+                URLConnection.setRequestProperty("Authorization", "Bearer "
+                        + GlobalVar.getInstance().getAppKey());
             }
-            */
+
             URLConnection.setRequestProperty("Content-type", "application/json");
 
             switch(method) {
