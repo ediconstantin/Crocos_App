@@ -12,6 +12,9 @@ public interface Constant {
     int CREATE_TEST_REQUEST_CODE = 102;
 
 
+    //INTENT CONTENT
+    String CURRENT_TEST = "CURRENT_TEST";
+
     //API URL
     String API_URL = "http://35.246.138.38";
 

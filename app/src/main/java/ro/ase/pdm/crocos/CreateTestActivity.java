@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,8 +24,6 @@ import utils.Constant;
 import utils.HTTPHandler;
 import utils.HTTPResponse;
 import utils.JSONifier;
-
-
 
 public class CreateTestActivity extends AppCompatActivity implements Constant {
 
@@ -55,6 +54,9 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
 
+        test = new Test();
+        test.setId(0);
+
         checkIfEditing();
 
         btn = findViewById(R.id.btnAdd);
@@ -68,14 +70,19 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                     protected void onPostExecute(HTTPResponse response){
                         if(response.getResult()){
                             Map<String, String> jsonMap = JSONifier.SimpleJSONToMap(response.getResponse());
-                            int testId = Integer.parseInt(jsonMap.get("testId"));
 
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt(CREATE_TEST_ID, testId);
-                            editor.apply();
+                            if(test.getId() == 0){
+                                test.setId(Integer.parseInt(jsonMap.get("testId")));
+                            }
+
+                            Intent intent = new Intent(getBaseContext(), QuestionsActivity.class);
+                            intent.putExtra(CURRENT_TEST, test);
+
+                            startActivityForResult(intent, CREATE_TEST_REQUEST_CODE);
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(CreateTestActivity.this, QuestionsActivity.class));
                         }
                     }
                 };
@@ -84,11 +91,8 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
                 if(!editing){
                     httpHandler.execute(POST_METHOD, API_URL + "/test", jsonData);
-                    startActivityForResult(new Intent(CreateTestActivity.this, QuestionsActivity.class),
-                            CREATE_TEST_REQUEST_CODE);
                 } else{
                     httpHandler.execute(PUT_METHOD, API_URL + "/test", jsonData);
-                    startActivity(new Intent(CreateTestActivity.this, QuestionsActivity.class));
                 }
             }
         });
@@ -143,10 +147,26 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     private void updateUI(){
 
-        //we have the Test which contains a test, its category and its questions
-        //you also have to send the received data in the questions activity
-        //to not make another api call
+        ((TextView)findViewById(R.id.etName)).setText(test.getName());
+        ((TextView)findViewById(R.id.etDuration)).setText(test.getDuration());
+        ((TextView)findViewById(R.id.etQuestionsNo)).setText(test.getQuestionsNo());
+        ((TextView)findViewById(R.id.etRetries)).setText(test.getRetries());
 
+        spinner.setSelection(categories.indexOf(test.getCategory()));
+
+        ((TextView)findViewById(R.id.etName)).setText(test.getName());
+
+        if(test.getBackwards()){
+            findViewById(R.id.rbYes).setSelected(true);
+        } else {
+            findViewById(R.id.rbNo).setSelected(false);
+        }
+
+        if(test.getPrivacy()){
+            findViewById(R.id.rbPublic).setSelected(true);
+        } else {
+            findViewById(R.id.rbPublic).setSelected(false);
+        }
     }
 
     public String extractData(){
