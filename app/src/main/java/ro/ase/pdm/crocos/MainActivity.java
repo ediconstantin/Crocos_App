@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Map;
 
+import entities.GlobalVar;
 import utils.Constant;
 import utils.HTTPHandler;
 import utils.HTTPResponse;
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements Constant {
         int logged = sharedPreferences.getInt(Constant.LOGGED_IN, 0);
         if(logged == 1){
             email = sharedPreferences.getString(Constant.EMAIL, "");
-
+            String token = sharedPreferences.getString(Constant.API_KEY, "");
+            GlobalVar.getInstance().setAppKey(token);
             loginToApp();
         }
     }
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
             }
         };
 
-        httpHandler.execute(POST_METHOD, API_REGISTER_URL + "/login", message);
+        httpHandler.execute(POST_METHOD, API_URL + "/login", message);
     }
 
     private void savePreferences(HTTPResponse response){
@@ -129,6 +131,10 @@ public class MainActivity extends AppCompatActivity implements Constant {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(Constant.LOGGED_IN, 1);
+
+        //singleton to save appKey
+        GlobalVar.getInstance().setAppKey(jsonMap.get("token"));
+
         editor.putString(Constant.API_KEY,jsonMap.get("token"));
         editor.putString(Constant.IS_ACTIVE, jsonMap.get("isActive"));
         editor.putString(Constant.IS_ADMIN, jsonMap.get("isAdmin"));
@@ -147,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
     private void loginToApp(){
         Intent intent;
 
-        if(email.contains("@csie.ase.ro")){
+        if(email.contains("@stud.ase.ro")){
             intent = new Intent(this, TeacherActivity.class);
             startActivity(intent);
             finish();

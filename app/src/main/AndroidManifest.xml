@@ -22,7 +22,9 @@
         </activity>
         <activity android:name=".StudentActivity" />
         <activity android:name=".TeacherActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".CreateTestActivity" />
+        <activity android:name=".QuestionsActivity"></activity>
     </application>
 
 </manifest>

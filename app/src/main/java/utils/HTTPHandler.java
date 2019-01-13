@@ -1,6 +1,7 @@
 package utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import entities.GlobalVar;
 
 public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implements Constant{
 
@@ -31,11 +34,12 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
             url = new URL(options[1]);
             URLConnection = (HttpURLConnection)url.openConnection();
 
-            /* retrieve from preferences if auth is present
-            if( != null){
-                URLConnection.setRequestProperty("Authorization", "Bearer " + options[1]);
+            if(GlobalVar.getInstance().getInitialized()){
+                URLConnection.setRequestProperty("Authorization", "Bearer " +
+                        GlobalVar.getInstance().getAppKey());
+                Log.i("AICEA", GlobalVar.getInstance().getAppKey());
             }
-            */
+
             URLConnection.setRequestProperty("Content-type", "application/json");
 
             switch(method) {
@@ -52,25 +56,41 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
                     outW.close();
                     out.close();
                     break;
+                case PUT_METHOD:
+                    URLConnection.setRequestMethod("PUT");
+                    URLConnection.setDoInput(true);
+                    OutputStream outP = URLConnection.getOutputStream();
+                    OutputStreamWriter outWR = new OutputStreamWriter(outP, "UTF-8");
+                    outWR.write(options[2]);
+                    outWR.flush();
+                    outWR.close();
+                    outP.close();
+                    break;
             }
 
             URLConnection.connect();
 
-            stream = URLConnection.getInputStream();
-            streamReader = new InputStreamReader(stream);
-            reader = new BufferedReader(streamReader);
+            if(URLConnection.getResponseCode() < 400){
 
-            while((currentLine = reader.readLine()) != null){
-                builder.append(currentLine);
+                stream = URLConnection.getInputStream();
+                streamReader = new InputStreamReader(stream);
+                reader = new BufferedReader(streamReader);
+
+                while((currentLine = reader.readLine()) != null){
+                    builder.append(currentLine);
+                }
+
+                httpResponse.setResponse(builder.toString());
+                httpResponse.setStatus(URLConnection.getResponseCode());
+                httpResponse.setResult();
+            } else {
+                httpResponse.setStatus(URLConnection.getResponseCode());
             }
-
-            httpResponse.setResponse(builder.toString());
-            httpResponse.setStatus(URLConnection.getResponseCode());
-            httpResponse.setResult();
 
         } catch (IOException e) {
             e.printStackTrace();
         } finally{
+            /*
             try{
                 reader.close();
                 streamReader.close();
@@ -78,7 +98,7 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
                 URLConnection.disconnect();
             } catch(IOException e){
                 e.printStackTrace();
-            }
+            }*/
         }
 
         return httpResponse;
