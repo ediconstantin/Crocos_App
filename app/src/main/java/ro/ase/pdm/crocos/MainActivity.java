@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        //startActivity(new Intent(MainActivity.this,TeacherActivity.class));
 
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
 

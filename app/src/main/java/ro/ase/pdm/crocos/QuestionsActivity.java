@@ -1,48 +1,29 @@
 package ro.ase.pdm.crocos;
 
-
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class QuestionsFragment extends Fragment {
-
-
-    public QuestionsFragment() {
-        // Required empty public constructor
-    }
+public class QuestionsActivity extends AppCompatActivity {
 
     private ExpandableListView listView;
     private ExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHashMap;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_questions);
 
-        View rootView = inflater.inflate(R.layout.fragment_questions, container, false);
-
-        listView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
+        listView = (ExpandableListView)findViewById(R.id.lvExp);
         initData();
-        listAdapter = new ExpandableListAdapter(this.getContext(),listDataHeader,listHashMap);
+        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHashMap);
         listView.setAdapter(listAdapter);
-
-
-        return rootView;
     }
 
     private void initData() {
@@ -72,7 +53,6 @@ public class QuestionsFragment extends Fragment {
         listHashMap.put(listDataHeader.get(1),economics);
         listHashMap.put(listDataHeader.get(2),mathematics);
         listHashMap.put(listDataHeader.get(3),statistics);
-
     }
 
 }

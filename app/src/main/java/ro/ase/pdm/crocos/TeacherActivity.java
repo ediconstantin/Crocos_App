@@ -16,8 +16,7 @@ public class TeacherActivity extends AppCompatActivity {
 
     private BottomNavigationView mainBottomNav;
     private Button nSignOut;
-    private QuizFragment quizFragment;
-    private Button createTestButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +24,19 @@ public class TeacherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teacher);
 
 
-        mainBottomNav = (BottomNavigationView)findViewById(R.id.bottomNavBar);
-        mainBottomNav.setSelectedItemId(R.id.itmQuizz);
+        mainBottomNav = (BottomNavigationView) findViewById(R.id.bottomNavBar);
+        mainBottomNav.setSelectedItemId(R.id.itmQuiz);
 
-        quizFragment = new QuizFragment();
-
-        createTestButton = findViewById(R.id.createTestButton);
-
-        replaceFragment(quizFragment);
 
         mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                switch (menuItem.getItemId()){
-                    case R.id.itmQuizz:
-                        replaceFragment(quizFragment);
+                switch (menuItem.getItemId()) {
+                    case R.id.itmQuiz:
+                        return true;
+                    case R.id.itmTest:
+                        startActivity(new Intent(TeacherActivity.this, CreateTestActivity.class));
                         return true;
                     default:
                         return false;
@@ -48,32 +44,5 @@ public class TeacherActivity extends AppCompatActivity {
             }
         });
 
-
-        nSignOut = findViewById(R.id.btnSignOut);
-
-        nSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //FirebaseAuth.getInstance().signOut();
-                //finish();
-                startActivity(new Intent(TeacherActivity.this, AboutActivity.class));
-            }
-        });
-
-        createTestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment createTestFragment = new createTestFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.mainContainer, createTestFragment);
-                fragmentTransaction.commit();
-            }
-        });
-    }
-
-    private void replaceFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.mainContainer, fragment);
-        fragmentTransaction.commit();
     }
 }
