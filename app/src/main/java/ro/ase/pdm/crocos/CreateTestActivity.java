@@ -82,7 +82,8 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
             protected void onPostExecute(HTTPResponse response){
                 if(response.getResult()){
                     categories = JSONifier.jsonToCategories(response.getResponse());
-                    //put data inside the categories spinner
+                    Toast.makeText(getApplicationContext(), categories.get(0).getName(), Toast.LENGTH_SHORT)
+                            .show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                 }
@@ -146,7 +147,4 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
             editing = true;
         }
     }
-
-
-
 }

@@ -10,7 +10,7 @@ public class GlobalVar {
     }
 
     public static GlobalVar getInstance() {
-        return GlobalVar.instance;
+        return instance;
     }
 
     public String getAppKey() {

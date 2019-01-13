@@ -1,6 +1,7 @@
 package utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,9 +34,9 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
             url = new URL(options[1]);
             URLConnection = (HttpURLConnection)url.openConnection();
 
-            if(!GlobalVar.getInstance().getInitialized()){
-                URLConnection.setRequestProperty("Authorization", "Bearer "
-                        + GlobalVar.getInstance().getAppKey());
+            if(GlobalVar.getInstance().getInitialized()){
+                URLConnection.setRequestProperty("Authorization", "Bearer " +
+                        GlobalVar.getInstance().getAppKey());
             }
 
             URLConnection.setRequestProperty("Content-type", "application/json");
@@ -58,17 +59,22 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
 
             URLConnection.connect();
 
-            stream = URLConnection.getInputStream();
-            streamReader = new InputStreamReader(stream);
-            reader = new BufferedReader(streamReader);
+            if(URLConnection.getResponseCode() < 400){
 
-            while((currentLine = reader.readLine()) != null){
-                builder.append(currentLine);
+                stream = URLConnection.getInputStream();
+                streamReader = new InputStreamReader(stream);
+                reader = new BufferedReader(streamReader);
+
+                while((currentLine = reader.readLine()) != null){
+                    builder.append(currentLine);
+                }
+
+                httpResponse.setResponse(builder.toString());
+                httpResponse.setStatus(URLConnection.getResponseCode());
+                httpResponse.setResult();
+            } else {
+                httpResponse.setStatus(URLConnection.getResponseCode());
             }
-
-            httpResponse.setResponse(builder.toString());
-            httpResponse.setStatus(URLConnection.getResponseCode());
-            httpResponse.setResult();
 
         } catch (IOException e) {
             e.printStackTrace();
