@@ -37,6 +37,7 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
             if(GlobalVar.getInstance().getInitialized()){
                 URLConnection.setRequestProperty("Authorization", "Bearer " +
                         GlobalVar.getInstance().getAppKey());
+                Log.i("AICEA", GlobalVar.getInstance().getAppKey());
             }
 
             URLConnection.setRequestProperty("Content-type", "application/json");
@@ -54,6 +55,16 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
                     outW.flush();
                     outW.close();
                     out.close();
+                    break;
+                case PUT_METHOD:
+                    URLConnection.setRequestMethod("POST");
+                    URLConnection.setDoInput(true);
+                    OutputStream outP = URLConnection.getOutputStream();
+                    OutputStreamWriter outWR = new OutputStreamWriter(outP, "UTF-8");
+                    outWR.write(options[2]);
+                    outWR.flush();
+                    outWR.close();
+                    outP.close();
                     break;
             }
 
@@ -79,6 +90,7 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
         } catch (IOException e) {
             e.printStackTrace();
         } finally{
+            /*
             try{
                 reader.close();
                 streamReader.close();
@@ -86,7 +98,7 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
                 URLConnection.disconnect();
             } catch(IOException e){
                 e.printStackTrace();
-            }
+            }*/
         }
 
         return httpResponse;

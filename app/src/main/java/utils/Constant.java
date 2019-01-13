@@ -19,6 +19,7 @@ public interface Constant {
     //HTTP Methods
     String GET_METHOD = "GET";
     String POST_METHOD = "POST";
+    String PUT_METHOD = "PUT";
 
     //Preferences
     String NAIRU_PREFERENCES = "NAIRU_PREFERENCES";
