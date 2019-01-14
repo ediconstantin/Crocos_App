@@ -51,8 +51,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     private Test test;
     private ListViewAdapter listViewAdapter;
     private OtherQuestionsAdapter otherQuestionsAdapter;
-    private List<Question> allQuestions;
-    private List<Question> newQuestions = new ArrayList<>();
+    private List<Question> allQuestions = new ArrayList<>();
     private List<Feedback> allFeedback = new ArrayList<>();
     private List<Integer> allAnswers = new ArrayList<>();
     private List<Category> categories;
@@ -72,6 +71,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         myDialog = new Dialog(this);
 
         btn = findViewById(R.id.floatingActionButton);
+
         Button btnSave = findViewById(R.id.btnSave);
 
         //validation();
@@ -83,7 +83,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         listViewAdapter = new ListViewAdapter(this, R.layout.list_item, existingQuestions);
         listView.setAdapter(listViewAdapter);
 
-        otherQuestionsAdapter = new OtherQuestionsAdapter(this, R.layout.list_item,allQuestions);
+        otherQuestionsAdapter = new OtherQuestionsAdapter(this, R.layout.list_item, allQuestions);
         listViewOther.setAdapter(otherQuestionsAdapter);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -105,11 +105,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     }
 
     private void initData() {
-
-        Question q1 = new Question();
-        q1.setQuestion("How many hours a night do you sleep?");
-
-        existingQuestions.add(q1);
 
         Feedback f1 = new Feedback();
         f1.setName("Immediate");
@@ -136,9 +131,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
         getAllQuestions();
 
-        test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
-        existingQuestions.addAll(test.getQuestions());
-
     }
 
     private void validation() {
@@ -159,6 +151,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     }
 
     private void showPopUp() {
+
         TextView txtClose;
         myDialog.setContentView(R.layout.questions_pop_up);
         txtClose = myDialog.findViewById(R.id.tvClose);
@@ -182,14 +175,16 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerCategoryPopUp.setAdapter(categoryAdapter);
 
-        btnAddQuestion = findViewById(R.id.btnAddQuestion);
-
         txtClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDialog.dismiss();
             }
         });
+
+        myDialog.show();
+
+        btnAddQuestion = myDialog.findViewById(R.id.btnAddQuestion);
 
         btnAddQuestion.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -214,8 +209,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
                 httpHandler.execute(POST_METHOD, API_URL + "/question/test/" + test.getId(), jsonData);
             }
         });
-
-        myDialog.show();
     }
 
     public String extractDataFromPopUP(){
@@ -251,6 +244,10 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             @Override
             protected void onPostExecute(HTTPResponse response) {
                 if (response.getResult()) {
+
+                    test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+                    existingQuestions.addAll(test.getQuestions());
+
                     allQuestions.addAll(JSONifier.jsonToQuestions(response.getResponse()));
                     checkExistingQuestions();
                 } else {

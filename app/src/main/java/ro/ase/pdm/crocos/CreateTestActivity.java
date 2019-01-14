@@ -22,6 +22,7 @@ import java.util.Map;
 import entities.Category;
 import entities.Feedback;
 import entities.GlobalVar;
+import entities.Question;
 import entities.Test;
 import utils.Constant;
 import utils.HTTPHandler;
@@ -65,7 +66,6 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         spinnerFeedback.setAdapter(adapterFeedback);
 
-
         loadCategories();
 
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
@@ -89,6 +89,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
                             if(test.getId() == 0){
                                 test.setId(Integer.parseInt(jsonMap.get("testId")));
+                                test.setQuestions(new ArrayList<Question>());
                             }
 
                             Intent intent = new Intent(getBaseContext(), QuestionsActivity.class);
@@ -140,6 +141,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
                     categories.clear();
                     categories.addAll(JSONifier.jsonToCategories(response.getResponse()));
+
                     GlobalVar.setCategories(categories);
 
                     adapter.notifyDataSetChanged();
@@ -158,7 +160,6 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         boolean editing = intent.getBooleanExtra("isEditing", false);
 
         if(editing){
-            //you have to send the test as intent everytime
             test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
             updateUI();
         }
@@ -193,13 +194,12 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         Test createTest = new Test();
 
         createTest.setName(((TextView)findViewById(R.id.etName)).getText().toString());
-        createTest.setName(((TextView)findViewById(R.id.etDescription)).getText().toString());
+        createTest.setDescription(((TextView)findViewById(R.id.etDescription)).getText().toString());
         createTest.setDuration(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setQuestionsNo(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setRetries(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
 
-        //feedback here
-
+        createTest.setFeedback(((Feedback)spinnerFeedback.getSelectedItem()).getValue());
 
         createTest.setCategory((Category)spinner.getSelectedItem());
 
