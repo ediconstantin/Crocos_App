@@ -219,16 +219,18 @@
 
             <EditText
                 android:id="@+id/etQuestionsNo"
-                android:layout_width="113dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/border"
                 android:ems="10"
                 android:hint="@string/TestQuestionsNoHint"
                 android:inputType="number"
                 android:textColorHint="@color/colorTransparentHalf"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvQuestionsNo" />
 
