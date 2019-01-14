@@ -25,7 +25,8 @@
         <activity android:name=".AboutActivity" />
         <activity android:name=".CreateTestActivity" />
         <activity android:name=".QuestionsActivity" />
-        <activity android:name=".CreateSessionActivity"></activity>
+        <activity android:name=".CreateSessionActivity" />
+        <activity android:name=".SessionActivity"></activity>
     </application>
 
 </manifest>
