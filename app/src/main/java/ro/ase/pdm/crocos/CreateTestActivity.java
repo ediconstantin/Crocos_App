@@ -165,6 +165,8 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         createTest.setQuestionsNo(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setRetries(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
 
+        //feedback and description here
+
         createTest.setCategory((Category)spinner.getSelectedItem());
 
         int tvBackwardsSelected = ((RadioGroup)findViewById(R.id.rgBackWards)).getCheckedRadioButtonId();

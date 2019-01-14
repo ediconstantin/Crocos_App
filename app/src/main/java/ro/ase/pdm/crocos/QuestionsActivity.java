@@ -83,7 +83,8 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         listViewAdapter = new ListViewAdapter(this, R.layout.list_item, existingQuestions);
         listView.setAdapter(listViewAdapter);
 
-        otherQuestionsAdapter = new OtherQuestionsAdapter(this, R.layout.list_item,newQuestions);
+        otherQuestionsAdapter = new OtherQuestionsAdapter(this, R.layout.list_item,allQuestions);
+        listViewOther.setAdapter(otherQuestionsAdapter);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +251,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             @Override
             protected void onPostExecute(HTTPResponse response) {
                 if (response.getResult()) {
-                    allQuestions = JSONifier.jsonToQuestions(response.getResponse());
+                    allQuestions.addAll(JSONifier.jsonToQuestions(response.getResponse()));
                     checkExistingQuestions();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
@@ -263,15 +264,12 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
     private void checkExistingQuestions() {
 
-        //in existingQuestions ai intrebarile care trebuie adaugate in prima lista
+        listViewAdapter.notifyDataSetChanged();
+
         allQuestions.removeAll(existingQuestions);
 
-        //dupa ce faci apelul de mai sus care e scris deja, in allQuestions raman doar cele care
-        //nu exista in existingQuestions. asa ca pe-astea din allQuestions le adaugi in lista de jos.
+        otherQuestionsAdapter.notifyDataSetChanged();
 
-        //si dupa ce le pui sa notifici adaptoarele sa se updateze
-
-        listViewAdapter.notifyDataSetChanged();
         disableCircle();
     }
 
