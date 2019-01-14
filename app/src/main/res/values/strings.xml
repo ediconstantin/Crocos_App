@@ -59,4 +59,5 @@
     <string name="FeedbackHint">Type feedback...f</string>
     <string name ="QuestionDurationHint">Type duration in minutes...</string>
     <string name="TestQuestionFeedback">Type feedback...</string>
+    <string name="CategoryLabel">Category</string>
 </resources>
