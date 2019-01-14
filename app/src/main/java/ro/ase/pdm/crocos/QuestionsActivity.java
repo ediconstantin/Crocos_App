@@ -31,9 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entities.Category;
 import entities.Feedback;
+import entities.GlobalVar;
 import entities.Question;
 import entities.Test;
+import entities.questionAnswer;
 import utils.Constant;
 import utils.HTTPHandler;
 import utils.HTTPResponse;
@@ -42,20 +45,22 @@ import utils.JSONifier;
 public class QuestionsActivity extends AppCompatActivity implements Constant {
 
 
-    ArrayList<Question> existingQuestions = new ArrayList<>();
-    ListView listView;
+    List<Question> existingQuestions = new ArrayList<>();
+    ListView listView, listViewOther;
     Dialog myDialog;
     FloatingActionButton btn;
     private Test test;
     private ListViewAdapter listViewAdapter;
-    private List<Question> allQuestions;
-    private List<Feedback> allFeedback = new ArrayList<>();
-    private List<Integer> allAnswers = new ArrayList<>();
-    ArrayAdapter<Feedback> adapter;
-    ArrayAdapter<Integer> correctAnsAdapter;
+    private OtherQuestionsAdapter otherQuestionsAdapter;
+    private List<Question> allQuestions = new ArrayList<>();
+    private List<questionAnswer> allAnswers = new ArrayList<>();
+    private List<Category> categories;
+    ArrayAdapter<questionAnswer> correctAnsAdapter;
+    ArrayAdapter<Category> categoryAdapter;
     EditText etQuestion, etAns1, etAns2, etAns3, etAns4;
     Button btnAddQuestion;
-    Spinner spinnerFeedback, spinnerCorrectAnswer, spinnerCategoryPopUp;
+    Spinner spinnerCorrectAnswer, spinnerCategoryPopUp;
+    Question createQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +70,20 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         myDialog = new Dialog(this);
 
         btn = findViewById(R.id.floatingActionButton);
+
         Button btnSave = findViewById(R.id.btnSave);
 
         //validation();
         initData();
 
         listView = findViewById(R.id.lv);
+        listViewOther = findViewById(R.id.lvOther);
 
         listViewAdapter = new ListViewAdapter(this, R.layout.list_item, existingQuestions);
         listView.setAdapter(listViewAdapter);
+
+        otherQuestionsAdapter = new OtherQuestionsAdapter(this, R.layout.list_item, allQuestions);
+        listViewOther.setAdapter(otherQuestionsAdapter);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,58 +99,21 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             }
         });
 
-        //event listener for clicking on a checkbox on the questions list
-        //if the checkbox is present, it will be removed from test
-        //else, it will be added
-
+        //bound and unbound question from test on clicking on the items from the two lists
+        //on long press unbound question from test
     }
 
     private void initData() {
 
-        Question q1 = new Question();
-        q1.setQuestion("How many hours a night do you sleep?");
+        allAnswers.add(new questionAnswer(1));
+        allAnswers.add(new questionAnswer(2));
+        allAnswers.add(new questionAnswer(3));
+        allAnswers.add(new questionAnswer(4));
 
-        existingQuestions.add(q1);
+        categories = GlobalVar.getCategories();
 
-        Feedback f1 = new Feedback();
-        f1.setName("Immediate");
-        f1.setValue(1);
+        getAllQuestions();
 
-        Feedback f2 = new Feedback();
-        f2.setName("Final");
-        f2.setValue(2);
-
-        Feedback f3 = new Feedback();
-        f3.setName("After session");
-        f3.setValue(3);
-
-        allFeedback.add(f1);
-        allFeedback.add(f2);
-        allFeedback.add(f3);
-
-        allAnswers.add(1);
-        allAnswers.add(2);
-        allAnswers.add(3);
-        allAnswers.add(4);
-
-
-
-
-
-        //getAllQuestions();
-
-        //api request to get all the questions defined by the user
-        //then based on the id of the questions received as prop in test
-        //the questions that are already affiliated with the test will be checked
-        //test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
-        //existingQuestions.addAll(test.getQuestions());
-
-        //when a questions will be created from the pop-up
-        //it will be sent to the server
-        //if its successful it's placed in the questions list from this activity as checked
-
-        //questions will be sent to be affiliated with the test one by one
-        //the finish button will only close the activity and will redirect to tests_activity
     }
 
     private void validation() {
@@ -158,19 +131,14 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         etAns3.addTextChangedListener(textWatcher);
         etAns4.addTextChangedListener(textWatcher);
 
-
     }
 
     private void showPopUp() {
+
         TextView txtClose;
         myDialog.setContentView(R.layout.questions_pop_up);
         txtClose = myDialog.findViewById(R.id.tvClose);
 
-        spinnerFeedback = myDialog.findViewById(R.id.spinnerFeedback);
-        adapter = new ArrayAdapter<>(QuestionsActivity.this,
-                R.layout.feedback_spinner, allFeedback);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerFeedback.setAdapter(adapter);
 
         spinnerCorrectAnswer = myDialog.findViewById(R.id.spinnerCorrectAns);
         correctAnsAdapter = new ArrayAdapter<>(QuestionsActivity.this,
@@ -180,6 +148,10 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         spinnerCorrectAnswer.setAdapter(correctAnsAdapter);
 
         spinnerCategoryPopUp = myDialog.findViewById(R.id.spinnerCategoryPopUp);
+        categoryAdapter = new ArrayAdapter<>(QuestionsActivity.this, R.layout.q_category_spinner,
+                                                                                            categories);
+        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerCategoryPopUp.setAdapter(categoryAdapter);
 
         txtClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,31 +159,60 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
                 myDialog.dismiss();
             }
         });
+
         myDialog.show();
+
+        btnAddQuestion = myDialog.findViewById(R.id.btnAddQuestion);
+
+        btnAddQuestion.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
+                HTTPHandler httpHandler = new HTTPHandler(){
+                    @Override
+                    protected void onPostExecute(HTTPResponse response){
+                        if(response.getResult()){
+                            Map<String, String> jsonMap = JSONifier.SimpleJSONToMap(response.getResponse());
+                            createQuestion.setId(Integer.parseInt(jsonMap.get("questionId")));
+                            existingQuestions.add(0, createQuestion);
+                            listViewAdapter.notifyDataSetChanged();
+                            myDialog.dismiss();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+
+                String jsonData = extractDataFromPopUP();
+                httpHandler.execute(POST_METHOD, API_URL + "/question/test/" + test.getId(), jsonData);
+            }
+        });
     }
 
     public String extractDataFromPopUP(){
-        Question createQuestion = new Question();
+        createQuestion = new Question();
 
         createQuestion.setQuestion(((TextView)myDialog.findViewById(R.id.etQuestion)).getText().toString());
         createQuestion.setAns1(((TextView)myDialog.findViewById(R.id.etAns1)).getText().toString());
         createQuestion.setAns2(((TextView)myDialog.findViewById(R.id.etAns2)).getText().toString());
         createQuestion.setAns3(((TextView)myDialog.findViewById(R.id.etAns3)).getText().toString());
         createQuestion.setAns4(((TextView)myDialog.findViewById(R.id.etAns4)).getText().toString());
-        createQuestion.setCorrect(spinnerCorrectAnswer.getSelectedItem().toString());
-        createQuestion.setFeedback(((Feedback)spinnerFeedback.getSelectedItem()).getValue());
+        createQuestion.setCorrect(((questionAnswer)spinnerCorrectAnswer.getSelectedItem()).getAnswerString());
+        createQuestion.setFeedback(((TextView)myDialog.findViewById(R.id.etFeedbackQuestion)).getText().toString());
         createQuestion.setDuration(Integer.parseInt((((TextView)myDialog.findViewById(R.id.etQuestionDuration)).getText().toString())));
 
         int multipleSelected = ((RadioGroup)myDialog.findViewById(R.id.rgMultiple)).getCheckedRadioButtonId();
-        RadioButton multipleValue = (RadioButton) findViewById(multipleSelected);
-        int multiple = (multipleValue.getText() == "Yes") ? 1 : 0;
+        //RadioButton multipleValue = ((RadioButton)myDialog.findViewById(multipleSelected));
+        String multipleValue = ((RadioButton)myDialog.findViewById(multipleSelected)).getText().toString();
+        int multiple = (multipleValue.equals("Yes")) ? 1 : 0;
         createQuestion.setMultiple(multiple);
 
         int openSelected = ((RadioGroup)myDialog.findViewById(R.id.rgOpen)).getCheckedRadioButtonId();
-        RadioButton openValue = (RadioButton) findViewById(openSelected);
+        RadioButton openValue = (RadioButton)myDialog.findViewById(openSelected);
         int open = (openValue.getText() == "Yes") ? 1 : 0;
         createQuestion.setOpen(open);
 
+        createQuestion.setCategory((Category)spinnerCategoryPopUp.getSelectedItem());
         return createQuestion.toJSON();
     }
 
@@ -221,7 +222,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             @Override
             protected void onPostExecute(HTTPResponse response) {
                 if (response.getResult()) {
-                    allQuestions = JSONifier.jsonToQuestions(response.getResponse());
+
+                    test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+
+                    existingQuestions.addAll(test.getQuestions());
+
+                    allQuestions.addAll(JSONifier.jsonToQuestions(response.getResponse()));
+
                     checkExistingQuestions();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
@@ -234,16 +241,12 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
     private void checkExistingQuestions() {
 
+        listViewAdapter.notifyDataSetChanged();
+
         allQuestions.removeAll(existingQuestions);
 
-        //the adapter data set is existingQuestions;
-        //check all the checkboxes for the items present
+        otherQuestionsAdapter.notifyDataSetChanged();
 
-        existingQuestions.addAll(allQuestions);
-        //not the existing questions should have the questions received from the previous activity checked
-        //and the remaining questions unchecked
-
-        listViewAdapter.notifyDataSetChanged();
         disableCircle();
     }
 
@@ -275,5 +278,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        test.setQuestions(existingQuestions);
+        Intent intent = new Intent();
+        intent.putExtra(TEST_WITH_QUESTIONS, test);
+        setResult(CREATE_TEST_REQUEST_CODE, intent);
+        super.onBackPressed();
+    }
 
 }

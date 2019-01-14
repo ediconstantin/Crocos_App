@@ -51,5 +51,13 @@
     <string name="DurationLabel">Duration</string>
     <string name="MultipleLabel">Multiple choice</string>
     <string name="OpenLabel">Open</string>
+    <string name= "CategoryLabel">Category</string>
+    <string name="TestQuestionsLabel">Test questions</string>
+    <string name="OtherQuestionsLabel">Other questions</string>
+    <string name="DescriptionLabel">Description</string>
+    <string name="DescriptionHint">Type description...</string>
+    <string name="FeedbackHint">Type feedback...f</string>
+    <string name ="QuestionDurationHint">Type duration in minutes...</string>
+    <string name="TestQuestionFeedback">Type feedback...</string>
     <string name="CategoryLabel">Category</string>
 </resources>

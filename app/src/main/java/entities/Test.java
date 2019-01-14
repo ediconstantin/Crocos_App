@@ -116,6 +116,22 @@ public class Test implements Serializable {
                 String.valueOf(retries),
                 backwards.toString(),
                 privacy.toString(),
-                "1"});
+                String.valueOf(feedback)});
+    }
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category.getId() +
+                ", duration=" + duration +
+                ", questionsNo=" + questionsNo +
+                ", retries=" + retries +
+                ", feedback=" + feedback +
+                ", backwards=" + backwards +
+                ", privacy=" + privacy +
+                '}';
     }
 }
