@@ -59,10 +59,12 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         spinnerFeedback = findViewById(R.id.ctSpinnerFeedback);
 
         adapterFeedback = new ArrayAdapter<>(CreateTestActivity.this,
-                R.layout.feedback_spinner,feedback);
+                R.layout.ct_feedback_spinner,feedback);
+
+        adapterFeedback.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         spinnerFeedback.setAdapter(adapterFeedback);
-        
+
 
         loadCategories();
 
