@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +18,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import entities.Question;
 import entities.Test;
 import utils.Constant;
 
 public class QuestionsActivity extends AppCompatActivity implements Constant {
 
-    private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
-    private List<String> listDataHeader;
-    private HashMap<String,List<String>> listHashMap;
+
+    ArrayList<Question> questions = new ArrayList<>();
+    ListView listView;
     Dialog myDialog;
     FloatingActionButton btn;
     private Test test;
@@ -39,6 +40,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
         btn = findViewById(R.id.floatingActionButton);
 
+        initData();
+
+        listView = findViewById(R.id.lv);
+
+        ListViewAdapter listViewAdapter = new ListViewAdapter(this, R.layout.list_item, questions);
+        listView.setAdapter(listViewAdapter);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,39 +54,49 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             }
         });
 
-        listView = (ExpandableListView)findViewById(R.id.lvExp);
-        initData();
-        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHashMap);
-        listView.setAdapter(listAdapter);
+
     }
 
     private void initData() {
-        listDataHeader = new ArrayList<>();
-        listHashMap = new HashMap<>();
 
-        listDataHeader.add("Programming");
-        listDataHeader.add("Economics");
-        listDataHeader.add("Mathematics");
-        listDataHeader.add("Statistics");
+        Question q1 = new Question();
+        q1.setQuestion("How many hours a night do you sleep?");
+        Question q2 = new Question();
+        q2.setQuestion("What is OOP?");
+        Question q3 = new Question();
+        q3.setQuestion("Who is Adam Smith?");
+        Question q4 = new Question();
+        q4.setQuestion("Is 64 a perfect square?");
+        Question q5 = new Question();
+        q5.setQuestion("What is Big Data?");
+        Question q6 = new Question();
+        q6.setQuestion("What is Big Data?");
+        Question q7 = new Question();
+        q7.setQuestion("What is Big Data?");
+        Question q8 = new Question();
+        q8.setQuestion("What is Big Data?");
+        Question q9 = new Question();
+        q9.setQuestion("What is Big Data?");
+        Question q10 = new Question();
+        q10.setQuestion("What is Big Data?");
+        Question q11 = new Question();
+        q11.setQuestion("What is Big Data?");
+        Question q12 = new Question();
+        q12.setQuestion("Is scroll view working on this layout?");
 
+        questions.add(q1);
+        questions.add(q2);
+        questions.add(q3);
+        questions.add(q4);
+        questions.add(q5);
+        questions.add(q6);
+        questions.add(q7);
+        questions.add(q8);
+        questions.add(q9);
+        questions.add(q10);
+        questions.add(q11);
+        questions.add(q12);
 
-        List<String> programming = new ArrayList<>();
-        programming.add("What is OOP?");
-        programming.add("How many hours a night do you sleep?");
-
-        List<String> economics = new ArrayList<>();
-        economics.add("Who is Adam Smith?");
-
-        List<String> mathematics = new ArrayList<>();
-        mathematics.add("Is 64 a perfect square?");
-
-        List<String> statistics = new ArrayList<>();
-        statistics.add("What is Big Data?");
-
-        listHashMap.put(listDataHeader.get(0),programming);
-        listHashMap.put(listDataHeader.get(1),economics);
-        listHashMap.put(listDataHeader.get(2),mathematics);
-        listHashMap.put(listDataHeader.get(3),statistics);
 
         //api request to get all the questions defined by the user
         //then based on the id of the questions received as prop in test

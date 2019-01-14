@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="55dp">
+    android:layout_height="55dp"
+    android:background="@drawable/border"
+    android:paddingTop="2dp">
 
 
 
@@ -12,11 +14,11 @@
 
     <TextView
         android:id="@+id/lbListItem"
-        android:textSize="16dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="4dp"
+        android:textSize="15sp" />
 
 </LinearLayout>
