@@ -39,9 +39,8 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_create_test);
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_test);
 
         spinner = findViewById(R.id.spinnerCategory);
 
@@ -89,7 +88,6 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 };
 
                 String jsonData = extractData();
-                Log.w("AOLEO", jsonData);
 
                 if(!editing){
                     httpHandler.execute(POST_METHOD, API_URL + "/test", jsonData);
