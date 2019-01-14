@@ -51,10 +51,12 @@
     <string name="DurationLabel">Duration</string>
     <string name="MultipleLabel">Multiple choice</string>
     <string name="OpenLabel">Open</string>
-    <string name= "CategoryLabel">Category</string>
+    <string name="CategoryLabel">Category</string>
     <string name="TestQuestionsLabel">Test questions</string>
     <string name="OtherQuestionsLabel">Other questions</string>
     <string name="DescriptionLabel">Description</string>
     <string name="DescriptionHint">Type description...</string>
     <string name="FeedbackHint">Type feedback...</string>
+    <string name="TeamLogo">Logo of our team</string>
+    <string name="SelectTestLabel">Select test:</string>
 </resources>

@@ -24,7 +24,8 @@
         <activity android:name=".TeacherActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".CreateTestActivity" />
-        <activity android:name=".QuestionsActivity"></activity>
+        <activity android:name=".QuestionsActivity" />
+        <activity android:name=".CreateSessionActivity"></activity>
     </application>
 
 </manifest>
