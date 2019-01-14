@@ -1,23 +1,32 @@
 package ro.ase.pdm.crocos;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.Category;
 import entities.Test;
+import utils.Constant;
+import utils.HTTPHandler;
+import utils.HTTPResponse;
+import utils.JSONifier;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity implements Constant {
 
     ListView listView;
 
     ArrayList<Test> allTests = new ArrayList<>();
     private TestAdapter testAdapter;
+    private List<Test> tests;
 
     private FloatingActionButton btnAddTest;
 
@@ -37,14 +46,15 @@ public class TestActivity extends AppCompatActivity {
         btnAddTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
+                startActivity(new Intent(getApplicationContext(), CreateTestActivity.class));
             }
         });
 
-
+        loadTests();
     }
 
     private void initData(){
+
         Test t1 = new Test();
         t1.setName("OOP");
         Category c1 = new Category();
@@ -66,7 +76,22 @@ public class TestActivity extends AppCompatActivity {
         allTests.add(t1);
         allTests.add(t2);
         allTests.add(t3);
+    }
 
+    private void loadTests(){
+        @SuppressLint("StaticFieldLeak")
+        HTTPHandler httpHandler = new HTTPHandler(){
+            @Override
+            protected void onPostExecute(HTTPResponse response){
+                if(response.getResult()){
+                    tests = JSONifier.jsonToTests(response.getResponse());
+                    testAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
+        httpHandler.execute(GET_METHOD, API_URL + "/test");
     }
 }
