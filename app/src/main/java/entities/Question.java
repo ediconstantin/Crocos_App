@@ -13,7 +13,7 @@ public class Question implements Serializable{
     private String ans3;
     private String ans4;
     private String correct;
-    private int feedback;
+    private String feedback;
     private String photo;
     private int multiple;
     private int open;
@@ -76,11 +76,11 @@ public class Question implements Serializable{
         this.correct = correct;
     }
 
-    public int getFeedback() {
+    public String getFeedback() {
         return feedback;
     }
 
-    public void setFeedback(int feedback) {
+    public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
 
@@ -127,9 +127,7 @@ public class Question implements Serializable{
     public String toJSON(){
         return JSONifier.StringToJSON(new String[]{"question", "ans1", "ans2", "ans3", "ans4",
                 "correct", "feedback", "photo", "category_id", "multiple","open","duration","category_id"}, new String[]{question, ans1,
-                ans2, ans3,correct,
-                String.valueOf(feedback),
-                photo,
+                ans2, ans3,correct, feedback, photo,
                 String.valueOf(category.getId()),
                 String.valueOf(multiple),
                 String.valueOf(open),

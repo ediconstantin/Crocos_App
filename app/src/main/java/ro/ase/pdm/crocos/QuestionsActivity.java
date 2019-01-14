@@ -52,15 +52,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     private ListViewAdapter listViewAdapter;
     private OtherQuestionsAdapter otherQuestionsAdapter;
     private List<Question> allQuestions = new ArrayList<>();
-    private List<Feedback> allFeedback = new ArrayList<>();
     private List<Integer> allAnswers = new ArrayList<>();
     private List<Category> categories;
-    ArrayAdapter<Feedback> adapter;
     ArrayAdapter<Integer> correctAnsAdapter;
     ArrayAdapter<Category> categoryAdapter;
     EditText etQuestion, etAns1, etAns2, etAns3, etAns4;
     Button btnAddQuestion;
-    Spinner spinnerFeedback, spinnerCorrectAnswer, spinnerCategoryPopUp;
+    Spinner spinnerCorrectAnswer, spinnerCategoryPopUp;
     Question createQuestion;
 
     @Override
@@ -106,22 +104,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
     private void initData() {
 
-        Feedback f1 = new Feedback();
-        f1.setName("Immediate");
-        f1.setValue(1);
-
-        Feedback f2 = new Feedback();
-        f2.setName("Final");
-        f2.setValue(2);
-
-        Feedback f3 = new Feedback();
-        f3.setName("After session");
-        f3.setValue(3);
-
-        allFeedback.add(f1);
-        allFeedback.add(f2);
-        allFeedback.add(f3);
-
         allAnswers.add(1);
         allAnswers.add(2);
         allAnswers.add(3);
@@ -156,11 +138,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         myDialog.setContentView(R.layout.questions_pop_up);
         txtClose = myDialog.findViewById(R.id.tvClose);
 
-        spinnerFeedback = myDialog.findViewById(R.id.spinnerFeedback);
-        adapter = new ArrayAdapter<>(QuestionsActivity.this,
-                R.layout.feedback_spinner, allFeedback);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerFeedback.setAdapter(adapter);
 
         spinnerCorrectAnswer = myDialog.findViewById(R.id.spinnerCorrectAns);
         correctAnsAdapter = new ArrayAdapter<>(QuestionsActivity.this,
@@ -170,7 +147,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         spinnerCorrectAnswer.setAdapter(correctAnsAdapter);
 
         spinnerCategoryPopUp = myDialog.findViewById(R.id.spinnerCategoryPopUp);
-        categoryAdapter = new ArrayAdapter<>(QuestionsActivity.this, R.layout.category_spinner,
+        categoryAdapter = new ArrayAdapter<>(QuestionsActivity.this, R.layout.q_category_spinner,
                                                                                             categories);
         categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerCategoryPopUp.setAdapter(categoryAdapter);
@@ -220,7 +197,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         createQuestion.setAns3(((TextView)myDialog.findViewById(R.id.etAns3)).getText().toString());
         createQuestion.setAns4(((TextView)myDialog.findViewById(R.id.etAns4)).getText().toString());
         createQuestion.setCorrect(spinnerCorrectAnswer.getSelectedItem().toString());
-        createQuestion.setFeedback(((Feedback)spinnerFeedback.getSelectedItem()).getValue());
+        createQuestion.setFeedback(((TextView)myDialog.findViewById(R.id.etFeedbackQuestion)).getText().toString());
         createQuestion.setDuration(Integer.parseInt((((TextView)myDialog.findViewById(R.id.etQuestionDuration)).getText().toString())));
 
         int multipleSelected = ((RadioGroup)myDialog.findViewById(R.id.rgMultiple)).getCheckedRadioButtonId();

@@ -56,5 +56,6 @@
     <string name="OtherQuestionsLabel">Other questions</string>
     <string name="DescriptionLabel">Description</string>
     <string name="DescriptionHint">Type description...</string>
-    <string name="FeedbackHint">Type feedback...</string>
+    <string name="FeedbackHint">Type feedback...f</string>
+    <string name ="QuestionDurationHint">Type duration in minutes...</string>
 </resources>
