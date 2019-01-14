@@ -16,7 +16,7 @@
         android:background="@drawable/scroll_view_border"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/fabAdd"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreateSession"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +45,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/btnCreateSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white"
+        android:text="@string/CreateSession"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

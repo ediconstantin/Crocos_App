@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class TestActivity extends AppCompatActivity implements Constant {
     List<Test> allTests = new ArrayList<>();
     private TestAdapter testAdapter;
     private FloatingActionButton btnAddTest;
+    private Button btnCreateSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,14 @@ public class TestActivity extends AppCompatActivity implements Constant {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), CreateTestActivity.class));
+            }
+        });
+
+        btnCreateSession = findViewById(R.id.btnCreateSession);
+        btnCreateSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
             }
         });
     }
