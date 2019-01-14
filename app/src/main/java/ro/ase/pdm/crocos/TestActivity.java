@@ -24,9 +24,8 @@ public class TestActivity extends AppCompatActivity implements Constant {
 
     ListView listView;
 
-    ArrayList<Test> allTests = new ArrayList<>();
+    List<Test> allTests = new ArrayList<>();
     private TestAdapter testAdapter;
-    private List<Test> tests;
 
     private FloatingActionButton btnAddTest;
 
@@ -49,8 +48,6 @@ public class TestActivity extends AppCompatActivity implements Constant {
                 startActivity(new Intent(getApplicationContext(), CreateTestActivity.class));
             }
         });
-
-        loadTests();
     }
 
     private void initData(){
@@ -76,6 +73,8 @@ public class TestActivity extends AppCompatActivity implements Constant {
         allTests.add(t1);
         allTests.add(t2);
         allTests.add(t3);
+
+        loadTests();
     }
 
     private void loadTests(){
@@ -84,7 +83,7 @@ public class TestActivity extends AppCompatActivity implements Constant {
             @Override
             protected void onPostExecute(HTTPResponse response){
                 if(response.getResult()){
-                    tests = JSONifier.jsonToTests(response.getResponse());
+                    allTests.addAll(JSONifier.jsonToTests(response.getResponse()));
                     testAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();

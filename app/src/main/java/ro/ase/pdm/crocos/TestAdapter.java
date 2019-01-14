@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.Test;
 
 public class TestAdapter extends BaseAdapter {
-    ArrayList<Test> tests;
+    List<Test> tests;
     Context context;
     int resource;
 
-    public TestAdapter(Context context, int resource, ArrayList<Test> tests) {
+    public TestAdapter(Context context, int resource, List<Test> tests) {
         this.tests = tests;
         this.context = context;
         this.resource = resource;
