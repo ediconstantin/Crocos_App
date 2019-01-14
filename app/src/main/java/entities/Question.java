@@ -126,10 +126,11 @@ public class Question implements Serializable{
 
     public String toJSON(){
         return JSONifier.StringToJSON(new String[]{"question", "ans1", "ans2", "ans3", "ans4",
-                "correct", "feedback", "photo", "multiple","open","duration","category_id"}, new String[]{question, ans1,
+                "correct", "feedback", "photo", "category_id", "multiple","open","duration","category_id"}, new String[]{question, ans1,
                 ans2, ans3,correct,
                 String.valueOf(feedback),
                 photo,
+                String.valueOf(category.getId()),
                 String.valueOf(multiple),
                 String.valueOf(open),
                 String.valueOf(duration),

@@ -31,7 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entities.Category;
 import entities.Feedback;
+import entities.GlobalVar;
 import entities.Question;
 import entities.Test;
 import utils.Constant;
@@ -51,11 +53,14 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     private List<Question> allQuestions;
     private List<Feedback> allFeedback = new ArrayList<>();
     private List<Integer> allAnswers = new ArrayList<>();
+    private List<Category> categories;
     ArrayAdapter<Feedback> adapter;
     ArrayAdapter<Integer> correctAnsAdapter;
+    ArrayAdapter<Category> categoryAdapter;
     EditText etQuestion, etAns1, etAns2, etAns3, etAns4;
     Button btnAddQuestion;
     Spinner spinnerFeedback, spinnerCorrectAnswer, spinnerCategoryPopUp;
+    Question createQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +94,8 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             }
         });
 
-        //event listener for clicking on a checkbox on the questions list
-        //if the checkbox is present, it will be removed from test
-        //else, it will be added
-
+        //bound and unbound question from test on clicking on the items from the two lists
+        //on long press unbound question from test
     }
 
     private void initData() {
@@ -123,24 +126,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         allAnswers.add(3);
         allAnswers.add(4);
 
+        categories = GlobalVar.getCategories();
 
+        getAllQuestions();
 
+        test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+        existingQuestions.addAll(test.getQuestions());
 
-
-        //getAllQuestions();
-
-        //api request to get all the questions defined by the user
-        //then based on the id of the questions received as prop in test
-        //the questions that are already affiliated with the test will be checked
-        //test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
-        //existingQuestions.addAll(test.getQuestions());
-
-        //when a questions will be created from the pop-up
-        //it will be sent to the server
-        //if its successful it's placed in the questions list from this activity as checked
-
-        //questions will be sent to be affiliated with the test one by one
-        //the finish button will only close the activity and will redirect to tests_activity
     }
 
     private void validation() {
@@ -157,7 +149,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         etAns2.addTextChangedListener(textWatcher);
         etAns3.addTextChangedListener(textWatcher);
         etAns4.addTextChangedListener(textWatcher);
-
 
     }
 
@@ -180,6 +171,12 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         spinnerCorrectAnswer.setAdapter(correctAnsAdapter);
 
         spinnerCategoryPopUp = myDialog.findViewById(R.id.spinnerCategoryPopUp);
+        categoryAdapter = new ArrayAdapter<>(QuestionsActivity.this, R.layout.category_spinner,
+                                                                                            categories);
+        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerCategoryPopUp.setAdapter(categoryAdapter);
+
+        btnAddQuestion = findViewById(R.id.btnAddQuestion);
 
         txtClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,11 +184,36 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
                 myDialog.dismiss();
             }
         });
+
+        btnAddQuestion.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
+                HTTPHandler httpHandler = new HTTPHandler(){
+                    @Override
+                    protected void onPostExecute(HTTPResponse response){
+                        if(response.getResult()){
+                            Map<String, String> jsonMap = JSONifier.SimpleJSONToMap(response.getResponse());
+                            createQuestion.setId(Integer.parseInt(jsonMap.get("questionId")));
+                            existingQuestions.add(0, createQuestion);
+                            listViewAdapter.notifyDataSetChanged();
+                            myDialog.dismiss();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+
+                String jsonData = extractDataFromPopUP();
+                httpHandler.execute(POST_METHOD, API_URL + "/question/test/" + test.getId(), jsonData);
+            }
+        });
+
         myDialog.show();
     }
 
     public String extractDataFromPopUP(){
-        Question createQuestion = new Question();
+        createQuestion = new Question();
 
         createQuestion.setQuestion(((TextView)myDialog.findViewById(R.id.etQuestion)).getText().toString());
         createQuestion.setAns1(((TextView)myDialog.findViewById(R.id.etAns1)).getText().toString());
@@ -211,6 +233,8 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         RadioButton openValue = (RadioButton) findViewById(openSelected);
         int open = (openValue.getText() == "Yes") ? 1 : 0;
         createQuestion.setOpen(open);
+
+        createQuestion.setCategory((Category)spinnerCategoryPopUp.getSelectedItem());
 
         return createQuestion.toJSON();
     }
@@ -234,14 +258,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
     private void checkExistingQuestions() {
 
+        //in existingQuestions ai intrebarile care trebuie adaugate in prima lista
         allQuestions.removeAll(existingQuestions);
 
-        //the adapter data set is existingQuestions;
-        //check all the checkboxes for the items present
+        //dupa ce faci apelul de mai sus care e scris deja, in allQuestions raman doar cele care
+        //nu exista in existingQuestions. asa ca pe-astea din allQuestions le adaugi in lista de jos.
 
-        existingQuestions.addAll(allQuestions);
-        //not the existing questions should have the questions received from the previous activity checked
-        //and the remaining questions unchecked
+        //si dupa ce le pui sa notifici adaptoarele sa se updateze
 
         listViewAdapter.notifyDataSetChanged();
         disableCircle();

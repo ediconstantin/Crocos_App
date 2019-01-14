@@ -14,6 +14,7 @@ public interface Constant {
 
     //INTENT CONTENT
     String CURRENT_TEST = "CURRENT_TEST";
+    String CATEGORIES = "CATEGORIES";
 
     //API URL
     String API_URL = "http://35.246.138.38";

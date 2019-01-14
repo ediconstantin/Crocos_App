@@ -107,9 +107,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
                     categories.clear();
                     categories.addAll(JSONifier.jsonToCategories(response.getResponse()));
-
-                    Toast.makeText(getApplicationContext(), categories.get(0).getName(), Toast.LENGTH_SHORT)
-                            .show();
+                    GlobalVar.setCategories(categories);
 
                     adapter.notifyDataSetChanged();
 
