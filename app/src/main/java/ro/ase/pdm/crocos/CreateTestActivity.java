@@ -218,11 +218,9 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*
         if (requestCode == CREATE_TEST_REQUEST_CODE) {
             editing = true;
-            loadCategories();
-            checkIfEditing();
-        }*/
+            test = (Test)data.getSerializableExtra(TEST_WITH_QUESTIONS);
+        }
     }
 }

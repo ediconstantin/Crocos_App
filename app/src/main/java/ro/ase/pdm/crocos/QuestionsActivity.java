@@ -36,6 +36,7 @@ import entities.Feedback;
 import entities.GlobalVar;
 import entities.Question;
 import entities.Test;
+import entities.questionAnswer;
 import utils.Constant;
 import utils.HTTPHandler;
 import utils.HTTPResponse;
@@ -52,9 +53,9 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     private ListViewAdapter listViewAdapter;
     private OtherQuestionsAdapter otherQuestionsAdapter;
     private List<Question> allQuestions = new ArrayList<>();
-    private List<Integer> allAnswers = new ArrayList<>();
+    private List<questionAnswer> allAnswers = new ArrayList<>();
     private List<Category> categories;
-    ArrayAdapter<Integer> correctAnsAdapter;
+    ArrayAdapter<questionAnswer> correctAnsAdapter;
     ArrayAdapter<Category> categoryAdapter;
     EditText etQuestion, etAns1, etAns2, etAns3, etAns4;
     Button btnAddQuestion;
@@ -104,10 +105,10 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
     private void initData() {
 
-        allAnswers.add(1);
-        allAnswers.add(2);
-        allAnswers.add(3);
-        allAnswers.add(4);
+        allAnswers.add(new questionAnswer(1));
+        allAnswers.add(new questionAnswer(2));
+        allAnswers.add(new questionAnswer(3));
+        allAnswers.add(new questionAnswer(4));
 
         categories = GlobalVar.getCategories();
 
@@ -196,22 +197,22 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         createQuestion.setAns2(((TextView)myDialog.findViewById(R.id.etAns2)).getText().toString());
         createQuestion.setAns3(((TextView)myDialog.findViewById(R.id.etAns3)).getText().toString());
         createQuestion.setAns4(((TextView)myDialog.findViewById(R.id.etAns4)).getText().toString());
-        createQuestion.setCorrect(spinnerCorrectAnswer.getSelectedItem().toString());
+        createQuestion.setCorrect(((questionAnswer)spinnerCorrectAnswer.getSelectedItem()).getAnswerString());
         createQuestion.setFeedback(((TextView)myDialog.findViewById(R.id.etFeedbackQuestion)).getText().toString());
         createQuestion.setDuration(Integer.parseInt((((TextView)myDialog.findViewById(R.id.etQuestionDuration)).getText().toString())));
 
         int multipleSelected = ((RadioGroup)myDialog.findViewById(R.id.rgMultiple)).getCheckedRadioButtonId();
-        RadioButton multipleValue = (RadioButton) findViewById(multipleSelected);
-        int multiple = (multipleValue.getText() == "Yes") ? 1 : 0;
+        //RadioButton multipleValue = ((RadioButton)myDialog.findViewById(multipleSelected));
+        String multipleValue = ((RadioButton)myDialog.findViewById(multipleSelected)).getText().toString();
+        int multiple = (multipleValue.equals("Yes")) ? 1 : 0;
         createQuestion.setMultiple(multiple);
 
         int openSelected = ((RadioGroup)myDialog.findViewById(R.id.rgOpen)).getCheckedRadioButtonId();
-        RadioButton openValue = (RadioButton) findViewById(openSelected);
+        RadioButton openValue = (RadioButton)myDialog.findViewById(openSelected);
         int open = (openValue.getText() == "Yes") ? 1 : 0;
         createQuestion.setOpen(open);
 
         createQuestion.setCategory((Category)spinnerCategoryPopUp.getSelectedItem());
-
         return createQuestion.toJSON();
     }
 
@@ -223,9 +224,11 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
                 if (response.getResult()) {
 
                     test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+
                     existingQuestions.addAll(test.getQuestions());
 
                     allQuestions.addAll(JSONifier.jsonToQuestions(response.getResponse()));
+
                     checkExistingQuestions();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
@@ -275,5 +278,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        test.setQuestions(existingQuestions);
+        Intent intent = new Intent();
+        intent.putExtra(TEST_WITH_QUESTIONS, test);
+        setResult(CREATE_TEST_REQUEST_CODE, intent);
+        super.onBackPressed();
+    }
 
 }

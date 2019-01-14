@@ -124,7 +124,7 @@ public class JSONifier {
             question.setAns3(parser.getString("ans3"));
             question.setAns4(parser.getString("ans4"));
             question.setCorrect(parser.getString("correct"));
-            question.setFeedback(parser.getInt("feedback"));
+            question.setFeedback(parser.getString("feedback"));
             question.setPhoto(parser.getString("photo"));
             question.setMultiple(parser.getInt("multiple"));
             question.setOpen(parser.getInt("open"));

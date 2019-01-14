@@ -124,16 +124,38 @@ public class Question implements Serializable{
         this.category = category;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return (((Question)obj).getId() == this.getId()) ? true : false;
+    }
+
     public String toJSON(){
         return JSONifier.StringToJSON(new String[]{"question", "ans1", "ans2", "ans3", "ans4",
-                "correct", "feedback", "photo", "category_id", "multiple","open","duration","category_id"}, new String[]{question, ans1,
-                ans2, ans3,correct, feedback, photo,
+                "correct", "feedback", "category_id", "multiple","open","duration"},
+                new String[]{question, ans1,
+                ans2, ans3, ans4, correct, feedback,
                 String.valueOf(category.getId()),
                 String.valueOf(multiple),
                 String.valueOf(open),
-                String.valueOf(duration),
-                String.valueOf(category.getId()),
-                "1"});
+                String.valueOf(duration)});
     }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", ans1='" + ans1 + '\'' +
+                ", ans2='" + ans2 + '\'' +
+                ", ans3='" + ans3 + '\'' +
+                ", ans4='" + ans4 + '\'' +
+                ", correct='" + correct + '\'' +
+                ", feedback='" + feedback + '\'' +
+                ", photo='" + photo + '\'' +
+                ", multiple=" + multiple +
+                ", open=" + open +
+                ", duration=" + duration +
+                ", category=" + category.getId() +
+                '}';
+    }
 }
