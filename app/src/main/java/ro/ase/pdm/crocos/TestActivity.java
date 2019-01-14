@@ -26,7 +26,6 @@ public class TestActivity extends AppCompatActivity implements Constant {
 
     List<Test> allTests = new ArrayList<>();
     private TestAdapter testAdapter;
-
     private FloatingActionButton btnAddTest;
 
     @Override
@@ -53,29 +52,6 @@ public class TestActivity extends AppCompatActivity implements Constant {
     }
 
     private void initData(){
-
-        Test t1 = new Test();
-        t1.setName("OOP");
-        Category c1 = new Category();
-        c1.setName("Programming");
-        t1.setCategory(c1);
-
-        Test t2 = new Test();
-        t2.setName("Java");
-        Category c2 = new Category();
-        c2.setName("Programming");
-        t2.setCategory(c2);
-
-        Test t3 = new Test();
-        t3.setName("C#");
-        Category c3 = new Category();
-        c3.setName("Programming");
-        t3.setCategory(c3);
-
-        allTests.add(t1);
-        allTests.add(t2);
-        allTests.add(t3);
-
         loadTests();
     }
 
