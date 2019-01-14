@@ -39,9 +39,8 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_create_test);
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_test);
 
         spinner = findViewById(R.id.spinnerCategory);
 

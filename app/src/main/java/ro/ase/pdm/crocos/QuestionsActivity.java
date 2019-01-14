@@ -1,6 +1,7 @@
 package ro.ase.pdm.crocos;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -10,10 +11,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entities.Feedback;
 import entities.Question;
 import entities.Test;
 import utils.Constant;
@@ -42,8 +49,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     private Test test;
     private ListViewAdapter listViewAdapter;
     private List<Question> allQuestions;
-    EditText etQuestion, etAns1, etAns2, etAns3,etAns4;
+    private List<Feedback> allFeedback = new ArrayList<>();
+    private List<Integer> allAnswers = new ArrayList<>();
+    ArrayAdapter<Feedback> adapter;
+    ArrayAdapter<Integer> correctAnsAdapter;
+    EditText etQuestion, etAns1, etAns2, etAns3, etAns4;
     Button btnAddQuestion;
+    Spinner spinnerFeedback, spinnerCorrectAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +67,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         btn = findViewById(R.id.floatingActionButton);
         Button btnSave = findViewById(R.id.btnSave);
 
-        validation();
+        //validation();
         initData();
 
         listView = findViewById(R.id.lv);
@@ -70,7 +82,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener(){
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //redirect to the TestsActivity
@@ -89,13 +101,39 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         q1.setQuestion("How many hours a night do you sleep?");
 
         existingQuestions.add(q1);
-        getAllQuestions();
+
+        Feedback f1 = new Feedback();
+        f1.setName("Immediate");
+        f1.setValue(1);
+
+        Feedback f2 = new Feedback();
+        f2.setName("Final");
+        f2.setValue(2);
+
+        Feedback f3 = new Feedback();
+        f3.setName("After session");
+        f3.setValue(3);
+
+        allFeedback.add(f1);
+        allFeedback.add(f2);
+        allFeedback.add(f3);
+
+        allAnswers.add(1);
+        allAnswers.add(2);
+        allAnswers.add(3);
+        allAnswers.add(4);
+
+
+
+
+
+        //getAllQuestions();
 
         //api request to get all the questions defined by the user
         //then based on the id of the questions received as prop in test
         //the questions that are already affiliated with the test will be checked
-        test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
-        existingQuestions.addAll(test.getQuestions());
+        //test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+        //existingQuestions.addAll(test.getQuestions());
 
         //when a questions will be created from the pop-up
         //it will be sent to the server
@@ -105,7 +143,8 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         //the finish button will only close the activity and will redirect to tests_activity
     }
 
-    private void validation(){
+    private void validation() {
+
         etQuestion = findViewById(R.id.etQuestion);
         etAns1 = findViewById(R.id.etAns1);
         etAns2 = findViewById(R.id.etAns2);
@@ -119,12 +158,27 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         etAns3.addTextChangedListener(textWatcher);
         etAns4.addTextChangedListener(textWatcher);
 
+
     }
 
-    private void showPopUp(){
+    private void showPopUp() {
         TextView txtClose;
         myDialog.setContentView(R.layout.questions_pop_up);
         txtClose = myDialog.findViewById(R.id.tvClose);
+
+        spinnerFeedback = myDialog.findViewById(R.id.spinnerFeedback);
+        adapter = new ArrayAdapter<>(QuestionsActivity.this,
+                R.layout.feedback_spinner, allFeedback);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerFeedback.setAdapter(adapter);
+
+        spinnerCorrectAnswer = myDialog.findViewById(R.id.spinnerCorrectAns);
+        correctAnsAdapter = new ArrayAdapter<>(QuestionsActivity.this,
+                R.layout.feedback_spinner,allAnswers);
+
+        correctAnsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerCorrectAnswer.setAdapter(correctAnsAdapter);
+
         txtClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,12 +188,37 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         myDialog.show();
     }
 
-    private void getAllQuestions(){
+    public String extractDataFromPopUP(){
+        Question createQuestion = new Question();
+
+        createQuestion.setQuestion(((TextView)myDialog.findViewById(R.id.etQuestion)).getText().toString());
+        createQuestion.setAns1(((TextView)myDialog.findViewById(R.id.etAns1)).getText().toString());
+        createQuestion.setAns2(((TextView)myDialog.findViewById(R.id.etAns2)).getText().toString());
+        createQuestion.setAns3(((TextView)myDialog.findViewById(R.id.etAns3)).getText().toString());
+        createQuestion.setAns4(((TextView)myDialog.findViewById(R.id.etAns4)).getText().toString());
+        createQuestion.setCorrect(spinnerCorrectAnswer.getSelectedItem().toString());
+        createQuestion.setFeedback(((Feedback)spinnerFeedback.getSelectedItem()).getValue());
+        createQuestion.setDuration(Integer.parseInt((((TextView)myDialog.findViewById(R.id.etQuestionDuration)).getText().toString())));
+
+        int multipleSelected = ((RadioGroup)myDialog.findViewById(R.id.rgMultiple)).getCheckedRadioButtonId();
+        RadioButton multipleValue = (RadioButton) findViewById(multipleSelected);
+        int multiple = (multipleValue.getText() == "Yes") ? 1 : 0;
+        createQuestion.setMultiple(multiple);
+
+        int openSelected = ((RadioGroup)myDialog.findViewById(R.id.rgOpen)).getCheckedRadioButtonId();
+        RadioButton openValue = (RadioButton) findViewById(openSelected);
+        int open = (openValue.getText() == "Yes") ? 1 : 0;
+        createQuestion.setOpen(open);
+
+        return createQuestion.toJSON();
+    }
+
+    private void getAllQuestions() {
         @SuppressLint("StaticFieldLeak")
-        HTTPHandler httpHandler = new HTTPHandler(){
+        HTTPHandler httpHandler = new HTTPHandler() {
             @Override
-            protected void onPostExecute(HTTPResponse response){
-                if(response.getResult()){
+            protected void onPostExecute(HTTPResponse response) {
+                if (response.getResult()) {
                     allQuestions = JSONifier.jsonToQuestions(response.getResponse());
                     checkExistingQuestions();
                 } else {
@@ -151,7 +230,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         httpHandler.execute(GET_METHOD, API_URL + "/question");
     }
 
-    private void checkExistingQuestions(){
+    private void checkExistingQuestions() {
 
         allQuestions.removeAll(existingQuestions);
 
@@ -166,7 +245,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         disableCircle();
     }
 
-    private void disableCircle(){
+    private void disableCircle() {
         //this function will hide the rotating circle
     }
 
@@ -193,5 +272,6 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
         }
     };
+
 
 }

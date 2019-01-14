@@ -2,6 +2,8 @@ package entities;
 
 import java.io.Serializable;
 
+import utils.JSONifier;
+
 public class Question implements Serializable{
 
     private int id;
@@ -121,4 +123,18 @@ public class Question implements Serializable{
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public String toJSON(){
+        return JSONifier.StringToJSON(new String[]{"question", "ans1", "ans2", "ans3", "ans4",
+                "correct", "feedback", "photo", "multiple","open","duration","category_id"}, new String[]{question, ans1,
+                ans2, ans3,correct,
+                String.valueOf(feedback),
+                photo,
+                String.valueOf(multiple),
+                String.valueOf(open),
+                String.valueOf(duration),
+                String.valueOf(category.getId()),
+                "1"});
+    }
+
 }
