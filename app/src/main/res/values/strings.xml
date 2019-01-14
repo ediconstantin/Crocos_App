@@ -54,4 +54,7 @@
     <string name= "CategoryLabel">Category</string>
     <string name="TestQuestionsLabel">Test questions</string>
     <string name="OtherQuestionsLabel">Other questions</string>
+    <string name="DescriptionLabel">Description</string>
+    <string name="DescriptionHint">Type description...</string>
+    <string name="FeedbackHint">Type feedback...</string>
 </resources>
