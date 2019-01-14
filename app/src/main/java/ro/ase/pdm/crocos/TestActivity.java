@@ -42,6 +42,8 @@ public class TestActivity extends AppCompatActivity implements Constant {
 
         listView.setAdapter(testAdapter);
 
+        btnAddTest = findViewById(R.id.fabAdd);
+
         btnAddTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

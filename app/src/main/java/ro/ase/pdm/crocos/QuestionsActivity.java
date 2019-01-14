@@ -95,12 +95,11 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //redirect to the TestsActivity
+                startActivity(new Intent(getBaseContext(), TestActivity.class));
+                finish();
             }
         });
 
-        //bound and unbound question from test on clicking on the items from the two lists
-        //on long press unbound question from test
     }
 
     private void initData() {
