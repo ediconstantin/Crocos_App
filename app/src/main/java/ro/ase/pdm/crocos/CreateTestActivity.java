@@ -89,7 +89,6 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 };
 
                 String jsonData = extractData();
-                Log.w("AOLEO", jsonData);
 
                 if(!editing){
                     httpHandler.execute(POST_METHOD, API_URL + "/test", jsonData);

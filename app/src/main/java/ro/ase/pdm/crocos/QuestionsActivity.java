@@ -1,11 +1,14 @@
 package ro.ase.pdm.crocos;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,19 +20,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import entities.Question;
 import entities.Test;
 import utils.Constant;
+import utils.HTTPHandler;
+import utils.HTTPResponse;
+import utils.JSONifier;
 
 public class QuestionsActivity extends AppCompatActivity implements Constant {
 
 
-    ArrayList<Question> questions = new ArrayList<>();
+    ArrayList<Question> existingQuestions = new ArrayList<>();
     ListView listView;
     Dialog myDialog;
     FloatingActionButton btn;
     private Test test;
+    private ListViewAdapter listViewAdapter;
+    private List<Question> allQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +48,13 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         myDialog = new Dialog(this);
 
         btn = findViewById(R.id.floatingActionButton);
+        Button btnSave = findViewById(R.id.btnSave);
 
         initData();
 
         listView = findViewById(R.id.lv);
 
-        ListViewAdapter listViewAdapter = new ListViewAdapter(this, R.layout.list_item, questions);
+        listViewAdapter = new ListViewAdapter(this, R.layout.list_item, existingQuestions);
         listView.setAdapter(listViewAdapter);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +64,16 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             }
         });
 
+        btnSave.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //redirect to the TestsActivity
+            }
+        });
+
+        //event listener for clicking on a checkbox on the questions list
+        //if the checkbox is present, it will be removed from test
+        //else, it will be added
 
     }
 
@@ -61,47 +81,15 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
         Question q1 = new Question();
         q1.setQuestion("How many hours a night do you sleep?");
-        Question q2 = new Question();
-        q2.setQuestion("What is OOP?");
-        Question q3 = new Question();
-        q3.setQuestion("Who is Adam Smith?");
-        Question q4 = new Question();
-        q4.setQuestion("Is 64 a perfect square?");
-        Question q5 = new Question();
-        q5.setQuestion("What is Big Data?");
-        Question q6 = new Question();
-        q6.setQuestion("What is Big Data?");
-        Question q7 = new Question();
-        q7.setQuestion("What is Big Data?");
-        Question q8 = new Question();
-        q8.setQuestion("What is Big Data?");
-        Question q9 = new Question();
-        q9.setQuestion("What is Big Data?");
-        Question q10 = new Question();
-        q10.setQuestion("What is Big Data?");
-        Question q11 = new Question();
-        q11.setQuestion("What is Big Data?");
-        Question q12 = new Question();
-        q12.setQuestion("Is scroll view working on this layout?");
 
-        questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
-        questions.add(q6);
-        questions.add(q7);
-        questions.add(q8);
-        questions.add(q9);
-        questions.add(q10);
-        questions.add(q11);
-        questions.add(q12);
-
+        existingQuestions.add(q1);
+        getAllQuestions();
 
         //api request to get all the questions defined by the user
         //then based on the id of the questions received as prop in test
         //the questions that are already affiliated with the test will be checked
         test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
+        existingQuestions.addAll(test.getQuestions());
 
         //when a questions will be created from the pop-up
         //it will be sent to the server
@@ -122,6 +110,42 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             }
         });
         myDialog.show();
+    }
+
+    private void getAllQuestions(){
+        @SuppressLint("StaticFieldLeak")
+        HTTPHandler httpHandler = new HTTPHandler(){
+            @Override
+            protected void onPostExecute(HTTPResponse response){
+                if(response.getResult()){
+                    allQuestions = JSONifier.jsonToQuestions(response.getResponse());
+                    checkExistingQuestions();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        httpHandler.execute(GET_METHOD, API_URL + "/question");
+    }
+
+    private void checkExistingQuestions(){
+
+        allQuestions.removeAll(existingQuestions);
+
+        //the adapter data set is existingQuestions;
+        //check all the checkboxes for the items present
+
+        existingQuestions.addAll(allQuestions);
+        //not the existing questions should have the questions received from the previous activity checked
+        //and the remaining questions unchecked
+
+        listViewAdapter.notifyDataSetChanged();
+        disableCircle();
+    }
+
+    private void disableCircle(){
+        //this function will hide the rotating circle
     }
 
 }
