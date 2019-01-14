@@ -55,7 +55,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     ArrayAdapter<Integer> correctAnsAdapter;
     EditText etQuestion, etAns1, etAns2, etAns3, etAns4;
     Button btnAddQuestion;
-    Spinner spinnerFeedback, spinnerCorrectAnswer;
+    Spinner spinnerFeedback, spinnerCorrectAnswer, spinnerCategoryPopUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +178,8 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
 
         correctAnsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerCorrectAnswer.setAdapter(correctAnsAdapter);
+
+        spinnerCategoryPopUp = myDialog.findViewById(R.id.spinnerCategoryPopUp);
 
         txtClose.setOnClickListener(new View.OnClickListener() {
             @Override

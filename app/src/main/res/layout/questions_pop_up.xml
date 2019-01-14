@@ -255,6 +255,32 @@
             </Spinner>
 
             <TextView
+                android:id="@+id/tvQuestionCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/CategoryLabel"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerFeedback" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoryPopUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvQuestionCategory">
+
+            </Spinner>
+
+
+
+            <TextView
                 android:id="@+id/tvQuestionDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -264,7 +290,7 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerFeedback" />
+                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoryPopUp" />
 
             <EditText
                 android:id="@+id/etQuestionDuration"

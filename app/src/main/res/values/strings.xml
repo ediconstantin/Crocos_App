@@ -51,4 +51,5 @@
     <string name="DurationLabel">Duration</string>
     <string name="MultipleLabel">Multiple choice</string>
     <string name="OpenLabel">Open</string>
+    <string name= "CategoryLabel">Category</string>
 </resources>
