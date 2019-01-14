@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import entities.Category;
+import entities.Feedback;
 import entities.GlobalVar;
 import entities.Test;
 import utils.Constant;
@@ -33,8 +34,10 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
     private SharedPreferences sharedPreferences;
     private boolean editing;
     private List<Category> categories = new ArrayList<>();
-    private Spinner spinner;
+    private List<Feedback> feedback = new ArrayList<>();
+    private Spinner spinner, spinnerFeedback;
     private ArrayAdapter<Category> adapter;
+    private ArrayAdapter<Feedback> adapterFeedback;
     private Test test;
 
     @Override
@@ -50,6 +53,16 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
+
+        loadFeedback();
+
+        spinnerFeedback = findViewById(R.id.ctSpinnerFeedback);
+
+        adapterFeedback = new ArrayAdapter<>(CreateTestActivity.this,
+                R.layout.feedback_spinner,feedback);
+
+        spinnerFeedback.setAdapter(adapterFeedback);
+        
 
         loadCategories();
 
@@ -96,6 +109,24 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 }
             }
         });
+    }
+
+    private void loadFeedback(){
+        Feedback f1 = new Feedback();
+        f1.setName("Immediate");
+        f1.setValue(1);
+
+        Feedback f2 = new Feedback();
+        f2.setName("Final");
+        f2.setValue(2);
+
+        Feedback f3 = new Feedback();
+        f3.setName("After session");
+        f3.setValue(3);
+
+        feedback.add(f1);
+        feedback.add(f2);
+        feedback.add(f3);
     }
 
     private void loadCategories(){
