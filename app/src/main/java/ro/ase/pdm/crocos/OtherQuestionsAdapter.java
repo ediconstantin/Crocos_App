@@ -4,22 +4,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import entities.Question;
 
-public class ListViewAdapter extends BaseAdapter {
-
+public class OtherQuestionsAdapter extends BaseAdapter {
     List<Question> questions;
     Context context;
     int resource;
 
-    public ListViewAdapter(Context context, int resource, List<Question> objects) {
+    public OtherQuestionsAdapter(Context context, int resource, List<Question> objects) {
         this.context=context;
         this.questions=objects;
         this.resource = resource;
@@ -61,7 +58,5 @@ public class ListViewAdapter extends BaseAdapter {
     static class ViewHolder{
         public TextView listItem;
     }
-
-
 
 }
