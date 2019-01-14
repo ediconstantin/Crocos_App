@@ -44,13 +44,15 @@ import utils.JSONifier;
 public class QuestionsActivity extends AppCompatActivity implements Constant {
 
 
-    ArrayList<Question> existingQuestions = new ArrayList<>();
-    ListView listView;
+    List<Question> existingQuestions = new ArrayList<>();
+    ListView listView, listViewOther;
     Dialog myDialog;
     FloatingActionButton btn;
     private Test test;
     private ListViewAdapter listViewAdapter;
+    private OtherQuestionsAdapter otherQuestionsAdapter;
     private List<Question> allQuestions;
+    private List<Question> newQuestions = new ArrayList<>();
     private List<Feedback> allFeedback = new ArrayList<>();
     private List<Integer> allAnswers = new ArrayList<>();
     private List<Category> categories;
@@ -76,9 +78,12 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
         initData();
 
         listView = findViewById(R.id.lv);
+        listViewOther = findViewById(R.id.lvOther);
 
         listViewAdapter = new ListViewAdapter(this, R.layout.list_item, existingQuestions);
         listView.setAdapter(listViewAdapter);
+
+        otherQuestionsAdapter = new OtherQuestionsAdapter(this, R.layout.list_item,newQuestions);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,16 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.Question;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    ArrayList<Question> questions;
+    List<Question> questions;
     Context context;
     int resource;
 
-    public ListViewAdapter(Context context, int resource, ArrayList<Question> objects) {
+    public ListViewAdapter(Context context, int resource, List<Question> objects) {
         this.context=context;
         this.questions=objects;
         this.resource = resource;
