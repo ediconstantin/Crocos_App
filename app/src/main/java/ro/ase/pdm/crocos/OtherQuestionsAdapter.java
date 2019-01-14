@@ -58,4 +58,5 @@ public class OtherQuestionsAdapter extends BaseAdapter {
     static class ViewHolder{
         public TextView listItem;
     }
+
 }

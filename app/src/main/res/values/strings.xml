@@ -52,4 +52,6 @@
     <string name="MultipleLabel">Multiple choice</string>
     <string name="OpenLabel">Open</string>
     <string name= "CategoryLabel">Category</string>
+    <string name="TestQuestionsLabel">Test questions</string>
+    <string name="OtherQuestionsLabel">Other questions</string>
 </resources>
