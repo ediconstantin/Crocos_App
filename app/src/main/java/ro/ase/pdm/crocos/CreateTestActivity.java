@@ -160,12 +160,13 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
         Test createTest = new Test();
 
         createTest.setName(((TextView)findViewById(R.id.etName)).getText().toString());
-
+        createTest.setName(((TextView)findViewById(R.id.etDescription)).getText().toString());
         createTest.setDuration(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setQuestionsNo(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setRetries(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
 
-        //feedback and description here
+        //feedback here
+
 
         createTest.setCategory((Category)spinner.getSelectedItem());
 
