@@ -58,7 +58,8 @@
     <string name="FeedbackHint">Type feedback...</string>
     <string name="TeamLogo">Logo of our team</string>
     <string name="SelectTestLabel">Selected test</string>
-    <string name="SelecTDateLabel">Select date:</string>
+    <string name="SelectSDateLabel">Select start date</string>
+    <string name="SelectEDateLabel">Select end date</string>
     <string name="OpenCalendar">Open calendar</string>
     <string name="StartHourLabel">Start hour</string>
     <string name="EndHourLabel">End hour</string>
