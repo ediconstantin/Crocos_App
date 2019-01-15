@@ -124,7 +124,7 @@ public class JSONifier {
             question.setAns3(parser.getString("ans3"));
             question.setAns4(parser.getString("ans4"));
             question.setCorrect(parser.getString("correct"));
-            question.setFeedback(parser.getInt("feedback"));
+            question.setFeedback(parser.getString("feedback"));
             question.setPhoto(parser.getString("photo"));
             question.setMultiple(parser.getInt("multiple"));
             question.setOpen(parser.getInt("open"));
@@ -150,6 +150,7 @@ public class JSONifier {
 
             test.setId(parser.getInt("id"));
             test.setName(parser.getString("name"));
+            test.setDescription(parser.getString("description"));
             test.setDuration(parser.getInt("duration"));
             test.setQuestionsNo(parser.getInt("questionsNumber"));
             test.setRetries(parser.getInt("retries"));
@@ -168,7 +169,22 @@ public class JSONifier {
         return test;
     }
 
+    public static List<Test> jsonToTests(String jsonData){
 
+        List<Test> tests = new ArrayList<>();
 
+        try {
+            JSONArray jsonArray = new JSONArray(jsonData);
+
+            for(int i=0; i<jsonArray.length();i++){
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                tests.add(jsonToTest(jsonObj.toString()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tests;
+    }
 
 }

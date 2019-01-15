@@ -113,6 +113,18 @@ public class Test implements Serializable {
     }
 
     public String toJSON(){
+        if(id != 0){
+            return JSONifier.StringToJSON(new String[]{"id", "name", "description", "category_id", "duration", "questionsNumber",
+                    "retries", "backwards", "privacy", "feedback"},
+                    new String[]{String.valueOf(id), name, description,
+                    String.valueOf(category.getId()),
+                    String.valueOf(duration),
+                    String.valueOf(questionsNo),
+                    String.valueOf(retries),
+                    backwards.toString(),
+                    privacy.toString(),
+                    String.valueOf(feedback)});
+        }
         return JSONifier.StringToJSON(new String[]{"name", "description", "category_id", "duration", "questionsNumber",
         "retries", "backwards", "privacy", "feedback"}, new String[]{name, description,
                 String.valueOf(category.getId()),
@@ -121,6 +133,22 @@ public class Test implements Serializable {
                 String.valueOf(retries),
                 backwards.toString(),
                 privacy.toString(),
-                "1"});
+                String.valueOf(feedback)});
+    }
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category.getId() +
+                ", duration=" + duration +
+                ", questionsNo=" + questionsNo +
+                ", retries=" + retries +
+                ", feedback=" + feedback +
+                ", backwards=" + backwards +
+                ", privacy=" + privacy +
+                '}';
     }
 }

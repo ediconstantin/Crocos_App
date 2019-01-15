@@ -36,7 +36,7 @@ public class TeacherActivity extends AppCompatActivity {
                     case R.id.itmQuiz:
                         return true;
                     case R.id.itmTest:
-                        startActivity(new Intent(TeacherActivity.this, CreateTestActivity.class));
+                        startActivity(new Intent(TeacherActivity.this, TestActivity.class));
                         return true;
                     default:
                         return false;
