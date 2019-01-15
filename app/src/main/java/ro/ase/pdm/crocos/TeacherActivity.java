@@ -29,7 +29,6 @@ public class TeacherActivity extends AppCompatActivity {
         mainBottomNav = (BottomNavigationView) findViewById(R.id.bottomNavBar);
         mainBottomNav.setSelectedItemId(R.id.itmQuiz);
 
-
         mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -41,7 +40,7 @@ public class TeacherActivity extends AppCompatActivity {
                         startActivity(new Intent(TeacherActivity.this, TestActivity.class));
                         return true;
                     case R.id.itmSessions:
-                        startActivity(new Intent(TeacherActivity.this,Session.class));
+                        startActivity(new Intent(TeacherActivity.this, SessionActivity.class));
                         return true;
                     default:
                         return false;
