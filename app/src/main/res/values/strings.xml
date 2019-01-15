@@ -57,7 +57,7 @@
     <string name="DescriptionHint">Type description...</string>
     <string name="FeedbackHint">Type feedback...</string>
     <string name="TeamLogo">Logo of our team</string>
-    <string name="SelectTestLabel">Select test:</string>
+    <string name="SelectTestLabel">Selected test</string>
     <string name="SelecTDateLabel">Select date:</string>
     <string name="OpenCalendar">Open calendar</string>
     <string name="StartHourLabel">Start hour</string>

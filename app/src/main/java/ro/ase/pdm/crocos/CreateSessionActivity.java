@@ -14,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +24,7 @@ import entities.Test;
 
 public class CreateSessionActivity extends AppCompatActivity {
 
-    private Spinner spinner;
+
     List<Test> tests;
     ArrayAdapter<Test> adapter;
     Button btnSaveSession;
@@ -43,15 +42,9 @@ public class CreateSessionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_session);
 
         initData();
-        spinner = findViewById(R.id.csSpinnerTests);
         btnSaveSession = findViewById(R.id.btnSaveSession);
         startHour = findViewById(R.id.etStartHour);
         endHour = findViewById(R.id.etEndtHour);
-
-        adapter = new ArrayAdapter<>(this, R.layout.test_spinner,tests);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
 
         displayDate = (TextView)findViewById(R.id.tvSelectDateClickable);
         displayDate.setOnClickListener(new View.OnClickListener() {
@@ -82,21 +75,24 @@ public class CreateSessionActivity extends AppCompatActivity {
         btnSaveSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sDate = sDate +" " + startHour.getText().toString().trim() +":00";
-                eDate = eDate + " " + endHour.getText().toString().trim();
-
-                try {
-                    startDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").parse(sDate);
-                    endDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").parse(eDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
+                exportData();
                 //Intent to the session activity
 
             }
         });
 
+    }
+
+    private void exportData(){
+        sDate = sDate +" " + startHour.getText().toString().trim() +":00";
+        eDate = eDate + " " + endHour.getText().toString().trim();
+
+        try {
+            startDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").parse(sDate);
+            endDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").parse(eDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initData() {
