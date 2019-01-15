@@ -37,6 +37,120 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/tvSelectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/SelectSDateLabel"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgCrocos"
+        />
+
+    <TextView
+        android:id="@+id/tvSelectDateClickable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/border"
+        android:hint="@string/OpenCalendar"
+        android:textColor="@color/colorTransparentHalf"
+        android:gravity="center"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectDate" />
+
+    <TextView
+        android:id="@+id/tvSelectEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/SelectEDateLabel"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectDateClickable" />
+
+    <TextView
+        android:id="@+id/tvSelectEndDateClickable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/border"
+        android:hint="@string/OpenCalendar"
+        android:textColor="@color/colorTransparentHalf"
+        android:gravity="center"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectEndDate" />
+
+    <TextView
+        android:id="@+id/tvStartHourLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/StartHourLabel"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectEndDateClickable"
+        />
+
+    <EditText
+        android:id="@+id/etStartHour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/egHourStart"
+        android:inputType="textShortMessage"
+        android:textColorHint="@color/colorTransparentHalf"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStartHourLabel" />
+
+    <TextView
+        android:id="@+id/tvEndtHourLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/EndHourLabel"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etStartHour" />
+
+    <EditText
+        android:id="@+id/etEndtHour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="@string/egHourEnd"
+        android:inputType="textShortMessage"
+        android:textColorHint="@color/colorTransparentHalf"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEndtHourLabel" />
+
+
+
+    <TextView
         android:id="@+id/tvSelectTestLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,18 +158,6 @@
         android:text="@string/SelectTestLabel"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgCrocos" />
-
-    <Spinner
-        android:id="@+id/csSpinnerTests"
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSelectTestLabel" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/etEndtHour" />
 
 </android.support.constraint.ConstraintLayout>

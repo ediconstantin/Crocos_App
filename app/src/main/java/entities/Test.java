@@ -112,21 +112,21 @@ public class Test implements Serializable {
         return name;
     }
 
-    public String toJSON(){
-        if(id != 0){
+    public String toJSON() {
+        if (id != 0) {
             return JSONifier.StringToJSON(new String[]{"id", "name", "description", "category_id", "duration", "questionsNumber",
-                    "retries", "backwards", "privacy", "feedback"},
+                            "retries", "backwards", "privacy", "feedback"},
                     new String[]{String.valueOf(id), name, description,
-                    String.valueOf(category.getId()),
-                    String.valueOf(duration),
-                    String.valueOf(questionsNo),
-                    String.valueOf(retries),
-                    backwards.toString(),
-                    privacy.toString(),
-                    String.valueOf(feedback)});
+                            String.valueOf(category.getId()),
+                            String.valueOf(duration),
+                            String.valueOf(questionsNo),
+                            String.valueOf(retries),
+                            backwards.toString(),
+                            privacy.toString(),
+                            String.valueOf(feedback)});
         }
         return JSONifier.StringToJSON(new String[]{"name", "description", "category_id", "duration", "questionsNumber",
-        "retries", "backwards", "privacy", "feedback"}, new String[]{name, description,
+                "retries", "backwards", "privacy", "feedback"}, new String[]{name, description,
                 String.valueOf(category.getId()),
                 String.valueOf(duration),
                 String.valueOf(questionsNo),
@@ -134,21 +134,5 @@ public class Test implements Serializable {
                 backwards.toString(),
                 privacy.toString(),
                 String.valueOf(feedback)});
-    }
-
-    @Override
-    public String toString() {
-        return "Test{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", category=" + category.getId() +
-                ", duration=" + duration +
-                ", questionsNo=" + questionsNo +
-                ", retries=" + retries +
-                ", feedback=" + feedback +
-                ", backwards=" + backwards +
-                ", privacy=" + privacy +
-                '}';
     }
 }

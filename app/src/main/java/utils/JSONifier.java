@@ -11,6 +11,7 @@ import java.util.Map;
 
 import entities.Category;
 import entities.Question;
+import entities.Session;
 import entities.Test;
 
 public class JSONifier {
@@ -185,6 +186,45 @@ public class JSONifier {
         }
 
         return tests;
+    }
+
+    public static Session jsonToSession(String jsonData){
+
+        Session session = new Session();
+
+        try {
+            JSONObject parser = new JSONObject(jsonData);
+
+            session.setId(parser.getInt("id"));
+
+            session.setStatus(parser.getInt("status"));
+
+            JSONObject test = parser.getJSONObject("test");
+
+            session.setTestName(test.getString("name"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return session;
+    }
+
+    public static List<Session> jsonToSessions(String jsonData){
+        List<Session> sessions = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = new JSONArray(jsonData);
+
+            for(int i=0; i<jsonArray.length();i++){
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                sessions.add(jsonToSession(jsonObj.toString()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return sessions;
     }
 
 }
