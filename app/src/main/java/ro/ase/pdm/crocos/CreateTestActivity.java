@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import entities.Category;
+import entities.Feedback;
 import entities.GlobalVar;
+import entities.Question;
 import entities.Test;
 import utils.Constant;
 import utils.HTTPHandler;
@@ -33,15 +35,16 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
     private SharedPreferences sharedPreferences;
     private boolean editing;
     private List<Category> categories = new ArrayList<>();
-    private Spinner spinner;
+    private List<Feedback> feedback = new ArrayList<>();
+    private Spinner spinner, spinnerFeedback;
     private ArrayAdapter<Category> adapter;
+    private ArrayAdapter<Feedback> adapterFeedback;
     private Test test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_create_test);
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_test);
 
         spinner = findViewById(R.id.spinnerCategory);
 
@@ -52,14 +55,22 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         spinner.setAdapter(adapter);
 
+        test = new Test();
+
+        loadFeedback();
+
         loadCategories();
 
+        spinnerFeedback = findViewById(R.id.ctSpinnerFeedback);
+
+        adapterFeedback = new ArrayAdapter<>(CreateTestActivity.this,
+                R.layout.ct_feedback_spinner,feedback);
+
+        adapterFeedback.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        spinnerFeedback.setAdapter(adapterFeedback);
+
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
-
-        test = new Test();
-        test.setId(0);
-
-        checkIfEditing();
 
         btn = findViewById(R.id.btnAdd);
 
@@ -75,6 +86,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
                             if(test.getId() == 0){
                                 test.setId(Integer.parseInt(jsonMap.get("testId")));
+                                test.setQuestions(new ArrayList<Question>());
                             }
 
                             Intent intent = new Intent(getBaseContext(), QuestionsActivity.class);
@@ -89,7 +101,6 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 };
 
                 String jsonData = extractData();
-                Log.w("AOLEO", jsonData);
 
                 if(!editing){
                     httpHandler.execute(POST_METHOD, API_URL + "/test", jsonData);
@@ -98,6 +109,24 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                 }
             }
         });
+    }
+
+    private void loadFeedback(){
+        Feedback f1 = new Feedback();
+        f1.setName("Immediate");
+        f1.setValue(1);
+
+        Feedback f2 = new Feedback();
+        f2.setName("Final");
+        f2.setValue(2);
+
+        Feedback f3 = new Feedback();
+        f3.setName("After session");
+        f3.setValue(3);
+
+        feedback.add(f1);
+        feedback.add(f2);
+        feedback.add(f3);
     }
 
     private void loadCategories(){
@@ -110,11 +139,10 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                     categories.clear();
                     categories.addAll(JSONifier.jsonToCategories(response.getResponse()));
 
-                    Toast.makeText(getApplicationContext(), categories.get(0).getName(), Toast.LENGTH_SHORT)
-                            .show();
-
+                    GlobalVar.setCategories(categories);
                     adapter.notifyDataSetChanged();
 
+                    checkIfEditing();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                 }
@@ -126,36 +154,41 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     private void checkIfEditing(){
         Intent intent = getIntent();
-        boolean editing = intent.getBooleanExtra("isEditing", false);
+        editing = intent.getBooleanExtra(EDITING_MARK, false);
 
         if(editing){
-            //you have to send the test as intent everytime
             test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
             updateUI();
+        } else {
+            test.setId(0);
         }
     }
 
     private void updateUI(){
 
         ((TextView)findViewById(R.id.etName)).setText(test.getName());
-        ((TextView)findViewById(R.id.etDuration)).setText(test.getDuration());
-        ((TextView)findViewById(R.id.etQuestionsNo)).setText(test.getQuestionsNo());
-        ((TextView)findViewById(R.id.etRetries)).setText(test.getRetries());
+        ((TextView)findViewById(R.id.etDescription)).setText(test.getDescription());
+        ((TextView)findViewById(R.id.etDuration)).setText(String.valueOf(test.getDuration()));
+        ((TextView)findViewById(R.id.etQuestionsNo)).setText(String.valueOf(test.getQuestionsNo()));
+        ((TextView)findViewById(R.id.etRetries)).setText(String.valueOf(test.getRetries()));
 
         spinner.setSelection(categories.indexOf(test.getCategory()));
+        spinnerFeedback.setSelection(test.getFeedback() - 1);
 
         ((TextView)findViewById(R.id.etName)).setText(test.getName());
 
+        RadioGroup rgBackwards = findViewById(R.id.rgBackWards);
         if(test.getBackwards()){
-            findViewById(R.id.rbYes).setSelected(true);
+            rgBackwards.check(R.id.rbYes);
         } else {
-            findViewById(R.id.rbNo).setSelected(false);
+            rgBackwards.check(R.id.rbNo);
         }
 
+        RadioGroup rgPrivacy = findViewById(R.id.rgPrivacy);
         if(test.getPrivacy()){
-            findViewById(R.id.rbPublic).setSelected(true);
+            rgPrivacy.check(R.id.rbPrivate);
         } else {
-            findViewById(R.id.rbPublic).setSelected(false);
+            rgPrivacy.check(R.id.rbPublic);
         }
     }
 
@@ -163,11 +196,17 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         Test createTest = new Test();
 
-        createTest.setName(((TextView)findViewById(R.id.etName)).getText().toString());
+        if(editing){
+            createTest.setId(test.getId());
+        }
 
+        createTest.setName(((TextView)findViewById(R.id.etName)).getText().toString());
+        createTest.setDescription(((TextView)findViewById(R.id.etDescription)).getText().toString());
         createTest.setDuration(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setQuestionsNo(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
         createTest.setRetries(Integer.parseInt(((TextView)findViewById(R.id.etDuration)).getText().toString()));
+
+        createTest.setFeedback(((Feedback)spinnerFeedback.getSelectedItem()).getValue());
 
         createTest.setCategory((Category)spinner.getSelectedItem());
 
@@ -186,11 +225,9 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*
         if (requestCode == CREATE_TEST_REQUEST_CODE) {
             editing = true;
-            loadCategories();
-            checkIfEditing();
-        }*/
+            test = (Test)data.getSerializableExtra(TEST_WITH_QUESTIONS);
+        }
     }
 }

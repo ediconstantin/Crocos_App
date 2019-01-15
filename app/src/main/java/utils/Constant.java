@@ -14,6 +14,9 @@ public interface Constant {
 
     //INTENT CONTENT
     String CURRENT_TEST = "CURRENT_TEST";
+    String CATEGORIES = "CATEGORIES";
+    String TEST_WITH_QUESTIONS = "TEST_WITH_QUESTIONS";
+    String EDITING_MARK = "EDITING_MARK";
 
     //API URL
     String API_URL = "http://35.246.138.38";
@@ -23,6 +26,7 @@ public interface Constant {
     String GET_METHOD = "GET";
     String POST_METHOD = "POST";
     String PUT_METHOD = "PUT";
+    String DELETE_METHOD = "DELETE";
 
     //Preferences
     String NAIRU_PREFERENCES = "NAIRU_PREFERENCES";

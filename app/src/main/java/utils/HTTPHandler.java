@@ -37,7 +37,6 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
             if(GlobalVar.getInstance().getInitialized()){
                 URLConnection.setRequestProperty("Authorization", "Bearer " +
                         GlobalVar.getInstance().getAppKey());
-                Log.i("AICEA", GlobalVar.getInstance().getAppKey());
             }
 
             URLConnection.setRequestProperty("Content-type", "application/json");
@@ -45,6 +44,9 @@ public class HTTPHandler extends AsyncTask<String, Integer, HTTPResponse> implem
             switch(method) {
                 case GET_METHOD:
                     URLConnection.setRequestMethod("GET");
+                    break;
+                case DELETE_METHOD:
+                    URLConnection.setRequestMethod("DELETE");
                     break;
                 case POST_METHOD:
                     URLConnection.setRequestMethod("POST");
