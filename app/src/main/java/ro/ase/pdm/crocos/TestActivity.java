@@ -2,10 +2,12 @@ package ro.ase.pdm.crocos;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,11 +39,11 @@ public class TestActivity extends AppCompatActivity implements Constant {
 
         listView = findViewById(R.id.lvTests);
 
-        initData();
-
         testAdapter = new TestAdapter(TestActivity.this, R.layout.test_item, allTests);
 
         listView.setAdapter(testAdapter);
+
+        initData();
 
         btnAddTest = findViewById(R.id.fabAdd);
 
@@ -57,6 +59,18 @@ public class TestActivity extends AppCompatActivity implements Constant {
             @Override
             public void onClick(View v) {
                 //
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+            {
+                Test sendTest = (Test)listView.getItemAtPosition(position);
+                Intent intent = new Intent(getBaseContext(), CreateTestActivity.class);
+                intent.putExtra(EDITING_MARK, true);
+                intent.putExtra(CURRENT_TEST, sendTest);
+                startActivity(intent);
             }
         });
     }
@@ -80,5 +94,17 @@ public class TestActivity extends AppCompatActivity implements Constant {
         };
 
         httpHandler.execute(GET_METHOD, API_URL + "/test");
+    }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
+        Boolean isProf = Boolean.parseBoolean(sharedPreferences.getString(Constant.IS_PROF, "0"));
+
+        if(isProf){
+            startActivity(new Intent(this, TeacherActivity.class));
+        } else {
+            startActivity(new Intent(this, StudentActivity.class));
+        }
     }
 }

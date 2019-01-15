@@ -55,7 +55,11 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         spinner.setAdapter(adapter);
 
+        test = new Test();
+
         loadFeedback();
+
+        loadCategories();
 
         spinnerFeedback = findViewById(R.id.ctSpinnerFeedback);
 
@@ -66,14 +70,7 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
         spinnerFeedback.setAdapter(adapterFeedback);
 
-        loadCategories();
-
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
-
-        test = new Test();
-        test.setId(0);
-
-        checkIfEditing();
 
         btn = findViewById(R.id.btnAdd);
 
@@ -143,9 +140,9 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
                     categories.addAll(JSONifier.jsonToCategories(response.getResponse()));
 
                     GlobalVar.setCategories(categories);
-
                     adapter.notifyDataSetChanged();
 
+                    checkIfEditing();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                 }
@@ -157,41 +154,51 @@ public class CreateTestActivity extends AppCompatActivity implements Constant {
 
     private void checkIfEditing(){
         Intent intent = getIntent();
-        boolean editing = intent.getBooleanExtra("isEditing", false);
+        editing = intent.getBooleanExtra(EDITING_MARK, false);
 
         if(editing){
             test = (Test)getIntent().getSerializableExtra(CURRENT_TEST);
             updateUI();
+        } else {
+            test.setId(0);
         }
     }
 
     private void updateUI(){
 
         ((TextView)findViewById(R.id.etName)).setText(test.getName());
-        ((TextView)findViewById(R.id.etDuration)).setText(test.getDuration());
-        ((TextView)findViewById(R.id.etQuestionsNo)).setText(test.getQuestionsNo());
-        ((TextView)findViewById(R.id.etRetries)).setText(test.getRetries());
+        ((TextView)findViewById(R.id.etDescription)).setText(test.getDescription());
+        ((TextView)findViewById(R.id.etDuration)).setText(String.valueOf(test.getDuration()));
+        ((TextView)findViewById(R.id.etQuestionsNo)).setText(String.valueOf(test.getQuestionsNo()));
+        ((TextView)findViewById(R.id.etRetries)).setText(String.valueOf(test.getRetries()));
 
         spinner.setSelection(categories.indexOf(test.getCategory()));
+        spinnerFeedback.setSelection(test.getFeedback() - 1);
 
         ((TextView)findViewById(R.id.etName)).setText(test.getName());
 
+        RadioGroup rgBackwards = findViewById(R.id.rgBackWards);
         if(test.getBackwards()){
-            findViewById(R.id.rbYes).setSelected(true);
+            rgBackwards.check(R.id.rbYes);
         } else {
-            findViewById(R.id.rbNo).setSelected(false);
+            rgBackwards.check(R.id.rbNo);
         }
 
+        RadioGroup rgPrivacy = findViewById(R.id.rgPrivacy);
         if(test.getPrivacy()){
-            findViewById(R.id.rbPublic).setSelected(true);
+            rgPrivacy.check(R.id.rbPrivate);
         } else {
-            findViewById(R.id.rbPublic).setSelected(false);
+            rgPrivacy.check(R.id.rbPublic);
         }
     }
 
     public String extractData(){
 
         Test createTest = new Test();
+
+        if(editing){
+            createTest.setId(test.getId());
+        }
 
         createTest.setName(((TextView)findViewById(R.id.etName)).getText().toString());
         createTest.setDescription(((TextView)findViewById(R.id.etDescription)).getText().toString());

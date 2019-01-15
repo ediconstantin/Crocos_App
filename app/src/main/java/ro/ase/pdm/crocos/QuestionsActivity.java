@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +62,7 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
     Button btnAddQuestion;
     Spinner spinnerCorrectAnswer, spinnerCategoryPopUp;
     Question createQuestion;
+    Question currentQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,60 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(), TestActivity.class));
                 finish();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+            {
+                @SuppressLint("StaticFieldLeak")
+                HTTPHandler httpHandler = new HTTPHandler(){
+                    @Override
+                    protected void onPostExecute(HTTPResponse response){
+                        if(response.getResult()){
+                            existingQuestions.remove(currentQuestion);
+                            allQuestions.add(currentQuestion);
+                            listViewAdapter.notifyDataSetChanged();
+                            otherQuestionsAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+
+                currentQuestion = (Question)listView.getItemAtPosition(position);
+
+                httpHandler.execute(DELETE_METHOD, API_URL + "/test/question/"
+                        + test.getId() + "/" + currentQuestion.getId());
+            }
+        });
+
+        listViewOther.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+            {
+                @SuppressLint("StaticFieldLeak")
+                HTTPHandler httpHandler = new HTTPHandler(){
+                    @Override
+                    protected void onPostExecute(HTTPResponse response){
+                        if(response.getResult()){
+                            existingQuestions.add(currentQuestion);
+                            allQuestions.remove(currentQuestion);
+                            listViewAdapter.notifyDataSetChanged();
+                            otherQuestionsAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+
+                currentQuestion = (Question)listViewOther.getItemAtPosition(position);
+
+                String jsonData = JSONifier.StringToJSON(new String[]{"questionId"},
+                        new String[]{String.valueOf(currentQuestion.getId())});
+
+                httpHandler.execute(POST_METHOD, API_URL + "/test/question/" + test.getId(), jsonData);
             }
         });
 
@@ -186,6 +242,10 @@ public class QuestionsActivity extends AppCompatActivity implements Constant {
                 httpHandler.execute(POST_METHOD, API_URL + "/question/test/" + test.getId(), jsonData);
             }
         });
+    }
+
+    private void populatePopUp(){
+
     }
 
     public String extractDataFromPopUP(){
