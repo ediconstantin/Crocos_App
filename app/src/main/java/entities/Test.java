@@ -135,20 +135,4 @@ public class Test implements Serializable {
                 privacy.toString(),
                 String.valueOf(feedback)});
     }
-
-    @Override
-    public String toString() {
-        return "Test{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", category=" + category.getId() +
-                ", duration=" + duration +
-                ", questionsNo=" + questionsNo +
-                ", retries=" + retries +
-                ", feedback=" + feedback +
-                ", backwards=" + backwards +
-                ", privacy=" + privacy +
-                '}';
-    }
 }
