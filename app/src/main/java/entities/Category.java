@@ -61,6 +61,11 @@ public class Category implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return ((Category)obj).getId() == this.getId() ? true : false;
+    }
+
+    @Override
     public String toString() {
         return "\"" + name + "\"";
     }

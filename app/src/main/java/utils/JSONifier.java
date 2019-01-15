@@ -150,6 +150,7 @@ public class JSONifier {
 
             test.setId(parser.getInt("id"));
             test.setName(parser.getString("name"));
+            test.setDescription(parser.getString("description"));
             test.setDuration(parser.getInt("duration"));
             test.setQuestionsNo(parser.getInt("questionsNumber"));
             test.setRetries(parser.getInt("retries"));
