@@ -45,6 +45,14 @@ public class TestActivity extends AppCompatActivity implements Constant {
 
         initData();
 
+        btnCreateSession = findViewById(R.id.btnCreateSession);
+        btnCreateSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+            }
+        });
+
         btnAddTest = findViewById(R.id.fabAdd);
 
         btnAddTest.setOnClickListener(new View.OnClickListener() {
@@ -54,23 +62,29 @@ public class TestActivity extends AppCompatActivity implements Constant {
             }
         });
 
-        btnCreateSession = findViewById(R.id.btnCreateSession);
-        btnCreateSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //
-            }
-        });
+        listView.setLongClickable(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
+                Intent intent = new Intent(getBaseContext(), CreateSessionActivity.class);
+                Test sendTest = (Test)listView.getItemAtPosition(position);
+                intent.putExtra(CURRENT_TEST, sendTest);
+                startActivity(intent);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Test sendTest = (Test)listView.getItemAtPosition(position);
                 Intent intent = new Intent(getBaseContext(), CreateTestActivity.class);
                 intent.putExtra(EDITING_MARK, true);
                 intent.putExtra(CURRENT_TEST, sendTest);
                 startActivity(intent);
+
+                return true;
             }
         });
     }
