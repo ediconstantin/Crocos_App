@@ -107,6 +107,11 @@ public class Test implements Serializable {
         this.questions = questions;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public String toJSON(){
         if(id != 0){
             return JSONifier.StringToJSON(new String[]{"id", "name", "description", "category_id", "duration", "questionsNumber",

@@ -56,6 +56,8 @@
     <string name="DescriptionLabel">Description</string>
     <string name="DescriptionHint">Type description...</string>
     <string name="FeedbackHint">Type feedback...</string>
+    <string name="TeamLogo">Logo of our team</string>
+    <string name="SelectTestLabel">Select test:</string>
     <string name ="QuestionDurationHint">Type duration in minutes...</string>
     <string name="TestQuestionFeedback">Type feedback...</string>
     <string name="CategoryLabel">Category</string>
