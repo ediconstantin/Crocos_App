@@ -69,4 +69,5 @@
     <string name="TestQuestionFeedback">Type feedback...</string>
     <string name="CategoryLabel">Category</string>
     <string name="CreateSession">Create session</string>
+    <string name="Sessions">Sessions</string>
 </resources>

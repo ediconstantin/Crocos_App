@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import entities.Session;
+
 
 public class TeacherActivity extends AppCompatActivity {
 
@@ -37,6 +39,9 @@ public class TeacherActivity extends AppCompatActivity {
                         return true;
                     case R.id.itmTest:
                         startActivity(new Intent(TeacherActivity.this, TestActivity.class));
+                        return true;
+                    case R.id.itmSessions:
+                        startActivity(new Intent(TeacherActivity.this,Session.class));
                         return true;
                     default:
                         return false;
