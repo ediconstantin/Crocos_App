@@ -59,4 +59,10 @@
     <string name="FeedbackHint">Type feedback...</string>
     <string name="TeamLogo">Logo of our team</string>
     <string name="SelectTestLabel">Select test:</string>
+    <string name="SelecTDateLabel">Select date:</string>
+    <string name="OpenCalendar">Open calendar</string>
+    <string name="StartHourLabel">Start hour</string>
+    <string name="EndHourLabel">End hour</string>
+    <string name="egHourStart">Time format: HH:mm e.g 13:30</string>
+    <string name="egHourEnd">Time format: HH:mm e.g 14:50</string>
 </resources>
