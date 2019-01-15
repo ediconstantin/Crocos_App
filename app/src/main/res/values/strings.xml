@@ -72,3 +72,4 @@
     <string name="Sessions">Sessions</string>
     <string name="StopSession">Force stop session</string>
     <string name="DeleteSession">Delete session</string>
+</resources>
