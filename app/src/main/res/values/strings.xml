@@ -58,17 +58,14 @@
     <string name="FeedbackHint">Type feedback...</string>
     <string name="TeamLogo">Logo of our team</string>
     <string name="SelectTestLabel">Select test:</string>
-<<<<<<< HEAD
     <string name="SelecTDateLabel">Select date:</string>
     <string name="OpenCalendar">Open calendar</string>
     <string name="StartHourLabel">Start hour</string>
     <string name="EndHourLabel">End hour</string>
     <string name="egHourStart">Time format: HH:mm e.g 13:30</string>
     <string name="egHourEnd">Time format: HH:mm e.g 14:50</string>
-=======
     <string name ="QuestionDurationHint">Type duration in minutes...</string>
     <string name="TestQuestionFeedback">Type feedback...</string>
     <string name="CategoryLabel">Category</string>
     <string name="CreateSession">Create session</string>
->>>>>>> 5ce873745957205f804aa931f1ed658f211f8033
 </resources>
