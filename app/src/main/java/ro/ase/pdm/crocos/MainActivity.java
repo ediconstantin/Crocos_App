@@ -41,8 +41,12 @@ public class MainActivity extends AppCompatActivity implements Constant {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 
 
+=======
+        
+>>>>>>> 5ce873745957205f804aa931f1ed658f211f8033
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
 
         checkIfLoggedIn();
