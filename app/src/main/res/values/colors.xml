@@ -9,4 +9,9 @@
     <color name="TransparentWhite">#80ffffff</color>
     <color name="startColor">#56ab2f</color>
     <color name="endColor">#a8e063</color>
+    <color name="yellowStartColor">#fceabb</color>
+    <color name="yellowEndColor">#f8b500</color>
+    <color name="redStartColor">#f85032</color>
+    <color name="redEndColor">#f85032</color>
+
 </resources>
