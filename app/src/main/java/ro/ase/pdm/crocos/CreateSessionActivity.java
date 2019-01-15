@@ -122,8 +122,8 @@ public class CreateSessionActivity extends AppCompatActivity implements Constant
             @Override
             protected void onPostExecute(HTTPResponse response){
                 if(response.getResult()){
-                    //startActivity(new Intent(getBaseContext(), SessionActivity.class));
-                    //finish();
+                    startActivity(new Intent(getBaseContext(), SessionActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                 }
