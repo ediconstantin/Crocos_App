@@ -17,6 +17,7 @@ public interface Constant {
     String CATEGORIES = "CATEGORIES";
     String TEST_WITH_QUESTIONS = "TEST_WITH_QUESTIONS";
     String EDITING_MARK = "EDITING_MARK";
+    String CURRENT_SESSION = "CURRENT_SESSION";
 
     //API URL
     String API_URL = "http://35.246.138.38";

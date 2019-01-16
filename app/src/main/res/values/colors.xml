@@ -13,5 +13,6 @@
     <color name="yellowEndColor">#f8b500</color>
     <color name="redStartColor">#f85032</color>
     <color name="redEndColor">#f85032</color>
+    <color name="blue">	#005b96</color>
 
 </resources>
