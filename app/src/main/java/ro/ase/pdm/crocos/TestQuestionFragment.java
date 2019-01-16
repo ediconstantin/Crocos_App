@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -20,6 +21,8 @@ public class TestQuestionFragment extends Fragment {
 
     TextView tvQuestion;
     RadioButton rbA, rbB, rbC, rbD;
+
+    Button btnSubmit;
 
     TestAnswer testAnswer;
     TakeTestActivity takeTestActivity;
@@ -44,6 +47,8 @@ public class TestQuestionFragment extends Fragment {
         rbC = view.findViewById(R.id.rbC);
         rbD = view.findViewById(R.id.rbD);
 
+        btnSubmit = view.findViewById(R.id.btnSubmit);
+
        takeTestActivity = (TakeTestActivity) getActivity();
        questionIndex = getArguments().getInt("index");
        testAnswer = takeTestActivity.testAnswers.get(questionIndex);
@@ -54,6 +59,9 @@ public class TestQuestionFragment extends Fragment {
        rbB.setText(testAnswer.getAns2());
        rbC.setText((testAnswer.getAns3()));
        rbD.setText((testAnswer.getAns4()));
+       if(questionIndex == takeTestActivity.testAnswers.size()-1){
+           btnSubmit.setVisibility(View.VISIBLE);
+       }
 
         String message=getArguments().getString("index");
         return view;
