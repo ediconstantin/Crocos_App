@@ -79,4 +79,9 @@
     <string name="DetailedActivityEndDate">End Date:</string>
     <string name="ReadyLabel">Ready?</string>
     <string name="btnStart">Start</string>
+    <string name="selectAnswerLabel">What do you choose?</string>
+    <string name="AnswerA">Answer A</string>
+    <string name="AnswerB">Answer B</string>
+    <string name="AnswerC">Answer C</string>
+    <string name="AnswerD">Answer D</string>
 </resources>
