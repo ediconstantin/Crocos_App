@@ -1,5 +1,7 @@
 package utils;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +14,7 @@ import java.util.Map;
 import entities.Category;
 import entities.Question;
 import entities.Session;
+import entities.Student;
 import entities.Test;
 
 public class JSONifier {
@@ -203,6 +206,10 @@ public class JSONifier {
 
             session.setTestName(test.getString("name"));
 
+            session.setStartDate(parser.getInt("start_hour"));
+
+            session.setEndDate(parser.getInt("end_hour"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -226,5 +233,52 @@ public class JSONifier {
 
         return sessions;
     }
+
+    public static Student jsonToStudent(String jsonData){
+
+        Student stud = new Student();
+
+        try{
+            JSONObject jsonObj = new JSONObject(jsonData);
+
+            stud.setUserSessionId(jsonObj.getInt("id"));
+
+            JSONObject user = jsonObj.getJSONObject("user");
+
+            stud.setFirstName(user.getString("firstname"));
+
+            stud.setLastName(user.getString("lastname"));
+
+            JSONObject group = user.getJSONObject("group");
+
+            stud.setGroup(group.getString("name"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return stud;
+    }
+
+    public static List<Student> jsonToStudents(String jsonData){
+
+        List<Student> students = new ArrayList<>();
+
+        try{
+
+            JSONObject data = new JSONObject(jsonData);
+            JSONArray jsonStudents = new JSONArray(data.getJSONArray("user_sessions").toString());
+
+            for(int i=0; i<jsonStudents.length(); i++){
+                students.add(jsonToStudent((jsonStudents.getJSONObject(i)).toString()));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return students;
+    }
+
 
 }

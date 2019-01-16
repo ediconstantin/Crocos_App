@@ -49,10 +49,10 @@ public class SessionActivity extends AppCompatActivity implements Constant {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
-                //Intent intent = new Intent(getBaseContext(), UserSessionActivity.class);
-                //Session sendSession = (Session)lvSession.getItemAtPosition(position);
-                //intent.putExtra(CURRENT_SESSION, sendSession)
-                //startActivity(getBaseContext(), intent);
+                Intent intent = new Intent(getBaseContext(), DetailedSessionActivity.class);
+                Session sendSession = (Session)lvSession.getItemAtPosition(position);
+                intent.putExtra(CURRENT_SESSION, sendSession);
+                startActivity(intent);
             }
         });
 

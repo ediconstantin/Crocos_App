@@ -73,4 +73,8 @@
     <string name="ScoreLabel">Score:</string>
     <string name="GivenLabel">Given</string>
     <string name="OpenQuestions">Open question</string>
+    <string name="StopSession">Force stop session</string>
+    <string name="DeleteSession">Delete session</string>
+    <string name="DetailedActivityStartDate">Start Date:</string>
+    <string name="DetailedActivityEndDate">End Date:</string>
 </resources>
