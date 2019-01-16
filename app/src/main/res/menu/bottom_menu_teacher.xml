@@ -8,10 +8,10 @@
         android:icon="@drawable/quiz"
         android:title="@string/itmTest" />
     <item
-        android:id="@+id/itmQuiz"
+        android:id="@+id/itmHome"
         android:checked="true"
-        android:icon="@drawable/quiz"
-        android:title="@string/bottom_quiz_text" />
+        android:icon="@drawable/itm_home"
+        android:title="@string/bottom_home" />
     <item
         android:id="@+id/itmSessions"
         android:checked="true"

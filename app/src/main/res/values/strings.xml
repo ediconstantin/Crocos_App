@@ -79,4 +79,6 @@
     <string name="DetailedActivityEndDate">End Date:</string>
     <string name="ReadyLabel">Ready?</string>
     <string name="btnStart">Start</string>
+    <string name="WelcomeLabel">Welcome</string>
+    <string name="bottom_home">Home</string>
 </resources>
