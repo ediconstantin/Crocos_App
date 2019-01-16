@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".sessionBeforeStartActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -28,8 +29,8 @@
         <activity android:name=".CreateSessionActivity" />
         <activity android:name=".SessionActivity" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".UserSessionActivity"></activity>
-        <activity android:name=".DetailedSessionActivity"></activity>
+        <activity android:name=".UserSessionActivity" />
+        <activity android:name=".DetailedSessionActivity" />
     </application>
 
 </manifest>

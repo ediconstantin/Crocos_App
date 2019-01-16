@@ -77,4 +77,6 @@
     <string name="DeleteSession">Delete session</string>
     <string name="DetailedActivityStartDate">Start Date:</string>
     <string name="DetailedActivityEndDate">End Date:</string>
+    <string name="ReadyLabel">Ready?</string>
+    <string name="btnStart">Start</string>
 </resources>
