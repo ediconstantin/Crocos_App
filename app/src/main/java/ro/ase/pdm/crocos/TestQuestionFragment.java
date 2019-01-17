@@ -62,6 +62,38 @@ public class TestQuestionFragment extends Fragment {
        if(questionIndex == takeTestActivity.testAnswers.size()-1){
            btnSubmit.setVisibility(View.VISIBLE);
        }
+
+       rbA.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               //
+           }
+       });
+
+
+       rbB.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               //
+           }
+       });
+
+       rbC.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               //
+           }
+       });
+
+       rbD.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               //
+           }
+       });
+
+
+
        
        btnSubmit.setOnClickListener(new View.OnClickListener() {
            @Override
