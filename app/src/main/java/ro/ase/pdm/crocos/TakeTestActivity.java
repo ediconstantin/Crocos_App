@@ -1,11 +1,14 @@
 package ro.ase.pdm.crocos;
 
+import android.app.Dialog;
 import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -19,11 +22,13 @@ public class TakeTestActivity extends AppCompatActivity {
 
     private TextView tvCountDown;
     private CountDownTimer timer;
-    private long timeLeftInMilliSeconds = 900000;
+    private long timeLeftInMilliSeconds = 5000;
     private boolean timeIsRunning;
     TestQuestionAdapter adapter;
     ViewPager viewPager;
     TabLayout tabLayout;
+    Dialog myDialog;
+    ProgressBar progressBar;
 
     List<TestQuestionFragment> fragments = new ArrayList<>();
     public List<TestAnswer> testAnswers = new ArrayList<>();
@@ -33,9 +38,12 @@ public class TakeTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_test);
 
+        myDialog = new Dialog(this);
+
         tvCountDown = findViewById(R.id.tvCountDown);
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
+        progressBar = findViewById(R.id.progressBar);
         initDate();
         genFragmentList();
 
@@ -67,9 +75,29 @@ public class TakeTestActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
 
+                tvCountDown.setTextColor(getResources().getColor(R.color.redEndColor));
+                showPopUp();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }.start();
         timeIsRunning = true;
+
+    }
+
+    private void showPopUp(){
+        Button btnOK;
+        myDialog.setContentView(R.layout.time_expired_pop_up);
+        btnOK = myDialog.findViewById(R.id.btnOk);
+
+
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+            }
+        });
+        myDialog.show();
 
     }
 
