@@ -104,7 +104,9 @@ public class CreateSessionActivity extends AppCompatActivity implements Constant
     }
 
     private void displayCalendar(DatePickerDialog.OnDateSetListener listener){
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
@@ -112,6 +114,7 @@ public class CreateSessionActivity extends AppCompatActivity implements Constant
         DatePickerDialog dialog = new DatePickerDialog(CreateSessionActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_MinWidth, listener,day,month,year);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getDatePicker().setMinDate(System.currentTimeMillis());
         dialog.show();
     }
 
