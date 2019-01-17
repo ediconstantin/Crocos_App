@@ -34,6 +34,7 @@ public class DetailedSessionActivity extends AppCompatActivity implements Consta
     StudentsListAdapter adapter;
     Button btnDelete, btnStop;
     Session session;
+    TextView token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class DetailedSessionActivity extends AppCompatActivity implements Consta
         lvStudents = findViewById(R.id.lvStudents);
         btnDelete = findViewById(R.id.btnDelete);
         btnStop = findViewById(R.id.btnStopSession);
+        token = findViewById(R.id.tvToken);
 
         btnStop.setVisibility(View.INVISIBLE);
         btnDelete.setVisibility(View.INVISIBLE);
@@ -136,6 +138,9 @@ public class DetailedSessionActivity extends AppCompatActivity implements Consta
                 lvStudents.setVisibility(View.INVISIBLE);
                 break;
             case 1:
+
+                token.setText("Token");
+                token.setVisibility(View.VISIBLE);
                 btnDelete.setVisibility(View.INVISIBLE);
                 btnStop.setVisibility(View.VISIBLE);
                 lvStudents.setVisibility(View.INVISIBLE);
