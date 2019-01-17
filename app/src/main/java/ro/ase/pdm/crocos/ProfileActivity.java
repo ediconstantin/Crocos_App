@@ -20,7 +20,7 @@ public class ProfileActivity extends AppCompatActivity implements Constant {
         tvFirstName = findViewById(R.id.tvUserFirstName);
         tvLastName = findViewById(R.id.tvUserLastName);
         tvGroup = findViewById(R.id.tvUserGroup);
-        tvSeries = findViewById(R.id.tvSeries);
+        tvSeries = findViewById(R.id.tvUserSeries);
 
 
 

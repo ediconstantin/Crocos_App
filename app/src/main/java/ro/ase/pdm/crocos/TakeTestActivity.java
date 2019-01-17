@@ -94,7 +94,6 @@ public class TakeTestActivity extends AppCompatActivity implements Constant {
             }
         }.start();
         timeIsRunning = true;
-
     }
 
     private void showPopUp(){
@@ -105,7 +104,8 @@ public class TakeTestActivity extends AppCompatActivity implements Constant {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //intent to StudentUserSessionActivity; finish this activity;
+                startActivity(new Intent(getBaseContext(), JoinActivity.class));
+                finish();
             }
         });
         myDialog.show();

@@ -44,6 +44,7 @@ public class DetailedSessionActivity extends AppCompatActivity implements Consta
         lvStudents = findViewById(R.id.lvStudents);
         btnDelete = findViewById(R.id.btnDelete);
         btnStop = findViewById(R.id.btnStopSession);
+
         token = findViewById(R.id.tvToken);
 
         btnStop.setVisibility(View.INVISIBLE);
@@ -128,6 +129,7 @@ public class DetailedSessionActivity extends AppCompatActivity implements Consta
         };
 
         title.setText(session.getTestName());
+        token.setText(session.getToken());
         startDate.setText(startDateString);
         endDate.setText(endDateString);
 

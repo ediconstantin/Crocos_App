@@ -31,7 +31,6 @@
         android:text="blabla"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textSize="18sp"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

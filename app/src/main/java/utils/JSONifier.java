@@ -208,6 +208,8 @@ public class JSONifier {
 
             session.setTestName(test.getString("name"));
 
+            session.setToken(parser.getString("token"));
+
             session.setStartDate(parser.getInt("start_hour"));
 
             session.setEndDate(parser.getInt("end_hour"));

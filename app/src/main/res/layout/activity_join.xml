@@ -37,21 +37,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etJoinSession" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="185dp"
-        android:layout_height="134dp"
+    <TextView
+        android:id="@+id/welcomeTv"
+        android:layout_width="152dp"
+        android:layout_height="39dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/content_img_Welcome"
-        android:gravity="center"
-        android:src="@drawable/welcome"
-        app:layout_constraintBottom_toTopOf="@+id/etJoinSession"
+        android:text="@string/WelcomeText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/nameTv"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.546"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavBar"
@@ -63,6 +64,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_menu" />
 
+    <TextView
+        android:id="@+id/nameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="104dp"
+        android:text="TextView"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etJoinSession"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

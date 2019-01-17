@@ -96,7 +96,9 @@ public class CreateSessionActivity extends AppCompatActivity implements Constant
         btnSaveSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 exportData();
+
             }
         });
     }
@@ -116,6 +118,8 @@ public class CreateSessionActivity extends AppCompatActivity implements Constant
     private void exportData(){
         String csDate = sDate + " " + startHour.getText().toString().trim() +":00";
         String esDate = eDate + " " + endHour.getText().toString().trim() + ":00";
+
+        Log.e("TSS", csDate);
 
         @SuppressLint("StaticFieldLeak")
         HTTPHandler httpHandler = new HTTPHandler(){

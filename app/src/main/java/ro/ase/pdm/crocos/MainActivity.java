@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements Constant {
     private void loginToApp(){
         Intent intent;
 
-        if(email.contains("@csie.ase.ro")){
+        if(email.contains("@stud.ase.ro")){
             intent = new Intent(this, TeacherActivity.class);
             startActivity(intent);
             finish();

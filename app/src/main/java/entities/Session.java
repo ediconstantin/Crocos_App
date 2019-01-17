@@ -10,6 +10,15 @@ public class Session implements Serializable {
     private int testDuration;
     private int startDate;
     private int endDate;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getId() {
         return id;

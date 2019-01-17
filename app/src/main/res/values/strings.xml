@@ -87,4 +87,5 @@
     <string name="btnSubmit">Submit</string>
     <string name="expiredTime">Time expired. Your progress was saved. Check your results.</string>
     <string name="btnOk">OK</string>
+    <string name="WelcomeText">Welcome</string>
 </resources>
