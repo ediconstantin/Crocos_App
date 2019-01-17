@@ -19,6 +19,9 @@ public interface Constant {
     String TEST_WITH_QUESTIONS = "TEST_WITH_QUESTIONS";
     String EDITING_MARK = "EDITING_MARK";
     String CURRENT_SESSION = "CURRENT_SESSION";
+    String JOIN_SESSION = "JOIN_SESSION";
+    String JSON_TEST_TAKEN = "JSON_TEST_TAKEN";
+    String DURATION = "DURATION";
 
     //API URL
     String API_URL = "http://35.246.138.38";

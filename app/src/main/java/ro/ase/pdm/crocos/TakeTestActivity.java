@@ -1,11 +1,13 @@
 package ro.ase.pdm.crocos;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -16,9 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import entities.Test;
 import entities.TestAnswer;
+import entities.TestAnswerList;
+import utils.Constant;
 
-public class TakeTestActivity extends AppCompatActivity {
+public class TakeTestActivity extends AppCompatActivity implements Constant {
 
     private TextView tvCountDown;
     public CountDownTimer timer;
@@ -32,10 +37,20 @@ public class TakeTestActivity extends AppCompatActivity {
 
     List<TestQuestionFragment> fragments = new ArrayList<>();
     public List<TestAnswer> testAnswers = new ArrayList<>();
+    TestAnswerList testAnswerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+
+        testAnswerList = (TestAnswerList)intent.getSerializableExtra(JSON_TEST_TAKEN);
+        int duration = intent.getIntExtra(DURATION, 0);
+        timeLeftInMilliSeconds= duration;
+
+        Log.w("LALALA", String.valueOf(duration));
+
         setContentView(R.layout.activity_take_test);
 
         myDialog = new Dialog(this);
@@ -44,7 +59,7 @@ public class TakeTestActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         progressBar = findViewById(R.id.progressBar);
-        initDate();
+        initList();
         genFragmentList();
 
 
@@ -53,8 +68,6 @@ public class TakeTestActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         startTimer();
-
-
 
         tvCountDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +121,10 @@ public class TakeTestActivity extends AppCompatActivity {
         tvCountDown.setText(timeLeftText);
     }
 
+    private void initList(){
+        Log.e("LALALA", String.valueOf(testAnswerList.getTestAnswers().size()));
+        testAnswers = testAnswerList.getTestAnswers();
+    }
     private void initDate(){
 
         TestAnswer t1 = new TestAnswer();

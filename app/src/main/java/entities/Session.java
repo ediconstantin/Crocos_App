@@ -7,6 +7,7 @@ public class Session implements Serializable {
     private int id;
     private int status;
     private String testName;
+    private int testDuration;
     private int startDate;
     private int endDate;
 
@@ -48,6 +49,14 @@ public class Session implements Serializable {
 
     public void setEndDate(int endDate) {
         this.endDate = endDate;
+    }
+
+    public int getTestDuration() {
+        return testDuration;
+    }
+
+    public void setTestDuration(int testDuration) {
+        this.testDuration = testDuration;
     }
 
     @Override

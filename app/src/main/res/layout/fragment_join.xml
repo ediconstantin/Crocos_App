@@ -22,7 +22,6 @@
             android:gravity="center"
             android:hint="@string/etSessionPin"
             android:inputType="textShortMessage"
-            android:textAlignment="textStart"
             android:textColorHint="@color/colorTransparentHalf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

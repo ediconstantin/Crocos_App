@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements Constant {
 
         setContentView(R.layout.activity_main);
 
-        startActivity(new Intent(MainActivity.this,QuestionsActivity.class));
         sharedPreferences = getSharedPreferences(Constant.NAIRU_PREFERENCES, MODE_PRIVATE);
 
         checkIfLoggedIn();
@@ -155,12 +154,12 @@ public class MainActivity extends AppCompatActivity implements Constant {
     private void loginToApp(){
         Intent intent;
 
-        if(email.contains("@stud.ase.ro")){
+        if(email.contains("@csie.ase.ro")){
             intent = new Intent(this, TeacherActivity.class);
             startActivity(intent);
             finish();
         } else {
-            intent = new Intent(this, StudentActivity.class);
+            intent = new Intent(this, JoinActivity.class);
             startActivity(intent);
             finish();
         }

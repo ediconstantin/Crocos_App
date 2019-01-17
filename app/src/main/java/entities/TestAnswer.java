@@ -1,14 +1,33 @@
 package entities;
 
-public class TestAnswer {
+import java.io.Serializable;
+
+public class TestAnswer implements Serializable {
 
     private String question;
     private long Duration;
+    private int answerId;
     private String ans1;
     private String ans2;
     private String ans3;
     private String ans4;
+    private String answer;
 
+    public int getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public String getQuestion() {
         return question;

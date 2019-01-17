@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import utils.JSONifier;
 
-public class Question implements Serializable{
+public class Question implements Serializable {
 
     private int id;
     private String question;

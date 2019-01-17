@@ -16,6 +16,8 @@ import entities.Question;
 import entities.Session;
 import entities.Student;
 import entities.Test;
+import entities.TestAnswer;
+import entities.TestAnswerList;
 
 public class JSONifier {
 
@@ -234,6 +236,34 @@ public class JSONifier {
         return sessions;
     }
 
+    public static Session jsonToSessionWithDuration(String jsonData){
+
+        Session session = new Session();
+
+        try {
+            JSONObject parser = new JSONObject(jsonData);
+
+            session.setId(parser.getInt("id"));
+
+            session.setStatus(parser.getInt("status"));
+
+            JSONObject test = parser.getJSONObject("test");
+
+            session.setTestName(test.getString("name"));
+
+            session.setTestDuration(test.getInt("duration"));
+
+            session.setStartDate(parser.getInt("start_hour"));
+
+            session.setEndDate(parser.getInt("end_hour"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return session;
+    }
+
     public static Student jsonToStudent(String jsonData){
 
         Student stud = new Student();
@@ -278,6 +308,51 @@ public class JSONifier {
         }
 
         return students;
+    }
+
+    public static TestAnswer jsonToTestAnswer(String jsonData){
+
+        TestAnswer test = new TestAnswer();
+        JSONObject ans = null;
+        try {
+            ans = new JSONObject(jsonData);
+
+            test.setAnswer(ans.getString("answer"));
+            test.setAnswerId(ans.getInt("id"));
+
+            JSONObject questionsAns = ans.getJSONObject("question");
+            test.setQuestion(questionsAns.getString("question"));
+            test.setAns1(questionsAns.getString("ans1"));
+            test.setAns2(questionsAns.getString("ans2"));
+            test.setAns3(questionsAns.getString("ans3"));
+            test.setAns4(questionsAns.getString("ans4"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return test;
+    }
+
+    public static TestAnswerList jsonToTestAnswerList(String jsonData){
+
+        TestAnswerList tList = new TestAnswerList();
+
+        try {
+            JSONObject obj = new JSONObject(jsonData);
+
+            JSONArray questions = obj.getJSONArray("questions");
+
+            for(int i=0; i<questions.length();i++){
+                String ansData = questions.get(i).toString();
+                tList.append(jsonToTestAnswer(ansData));
+            }
+
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+
+        return tList;
     }
 
 

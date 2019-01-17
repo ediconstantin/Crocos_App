@@ -1,13 +1,12 @@
 package ro.ase.pdm.crocos;
 
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,35 +17,21 @@ import utils.HTTPHandler;
 import utils.HTTPResponse;
 import utils.JSONifier;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class JoinFragment extends Fragment implements Constant {
-
-
-    public JoinFragment() {
-        // Required empty public constructor
-    }
+public class JoinActivity extends AppCompatActivity implements Constant {
 
     Session session;
     EditText etToken;
     Button btnJoin;
     String token;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_join);
 
-        final View view = inflater.inflate(R.layout.fragment_join, container, false);
 
-
-        etToken = view.findViewById(R.id.etJoinSession);
-        btnJoin = view.findViewById(R.id.btnJoin);
-        session = new Session();
-
-        token = etToken.getText().toString().trim();
+        etToken = findViewById(R.id.etJoinSession);
+        btnJoin = findViewById(R.id.btnJoin);
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,24 +41,26 @@ public class JoinFragment extends Fragment implements Constant {
                     @Override
                     protected void onPostExecute(HTTPResponse response){
                         if(response.getResult()){
+
                             session = JSONifier.jsonToSessionWithDuration(response.getResponse());
 
-                            Intent intent = new Intent(view.getContext(), sessionBeforeStartActivity.class);
-                            intent.putExtra(JOIN_SESSION, intent);
+                            Intent intent = new Intent(JoinActivity.this, sessionBeforeStartActivity.class);
+                            intent.putExtra(JOIN_SESSION, session);
                             startActivity(intent);
 
                         } else {
-                            Toast.makeText(view.getContext(), "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(JoinActivity.this, "Error - " + response.getStatus(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 };
 
+                token = etToken.getText().toString();
                 httpHandler.execute(GET_METHOD, API_URL + "/session/public/" + token);
             }
         });
 
 
-        return view;
-    }
 
+
+    }
 }
