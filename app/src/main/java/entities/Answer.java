@@ -47,4 +47,10 @@ public class Answer {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
+
+    public boolean calculateResult() {
+        if (getCorrectAnswer().trim().equalsIgnoreCase(getGivenAnswer().trim())) {
+            return true;
+        } else return false;
+    }
 }

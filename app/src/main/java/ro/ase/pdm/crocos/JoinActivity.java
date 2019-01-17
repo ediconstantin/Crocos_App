@@ -80,6 +80,7 @@ public class JoinActivity extends AppCompatActivity implements Constant {
 
                 switch (menuItem.getItemId()){
                     case R.id.itmJoin:
+
                         return true;
                     case R.id.itmProfile:
                         startActivity(new Intent(JoinActivity.this,ProfileActivity.class));

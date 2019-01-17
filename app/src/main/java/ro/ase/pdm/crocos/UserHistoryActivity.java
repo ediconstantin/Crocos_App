@@ -10,24 +10,28 @@ import java.util.List;
 
 import entities.Answer;
 
-public class UserSessionActivity extends AppCompatActivity {
+public class UserHistoryActivity extends AppCompatActivity {
 
 
     ListView listView;
     userQuestionsAdapter adapter;
     List<Answer> answers = new ArrayList<>();
-    TextView openQuestion;
+    int result;
+
+    TextView tvResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_session);
+        setContentView(R.layout.activity_user_history);
         listView = findViewById(R.id.lvAnswersHistory);
-        openQuestion = findViewById(R.id.tvQuestionOpen);
+        tvResult = findViewById(R.id.tvResultValue);
+
         initData();
+
         adapter = new userQuestionsAdapter(this,R.layout.user_question_item,answers);
         listView.setAdapter(adapter);
     }
-
 
     private void initData(){
         Answer a1 = new Answer();
@@ -48,6 +52,14 @@ public class UserSessionActivity extends AppCompatActivity {
         answers.add(a1);
         answers.add(a2);
 
+        for (int i=0; i < answers.size();i++){
+            if(answers.get(i).calculateResult()){
+                result++;
+            }
+        }
+
+        tvResult.setText(String.valueOf(result));
 
     }
+
 }

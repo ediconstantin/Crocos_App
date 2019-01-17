@@ -69,6 +69,8 @@ public class userQuestionsAdapter extends BaseAdapter {
             holder.layout.setBackgroundResource(resID);
         }
 
+
+
         if(answer.isOpen()){
             resID = R.drawable.blue_border;
             holder.layout.setBackgroundResource(resID);
