@@ -30,7 +30,6 @@ public class TestActivity extends AppCompatActivity implements Constant {
     List<Test> allTests = new ArrayList<>();
     private TestAdapter testAdapter;
     private FloatingActionButton btnAddTest;
-    private Button btnCreateSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +43,6 @@ public class TestActivity extends AppCompatActivity implements Constant {
         listView.setAdapter(testAdapter);
 
         initData();
-
-        btnCreateSession = findViewById(R.id.btnCreateSession);
-        btnCreateSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //
-            }
-        });
 
         btnAddTest = findViewById(R.id.fabAdd);
 
