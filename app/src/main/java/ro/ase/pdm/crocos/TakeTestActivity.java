@@ -21,8 +21,8 @@ import entities.TestAnswer;
 public class TakeTestActivity extends AppCompatActivity {
 
     private TextView tvCountDown;
-    private CountDownTimer timer;
-    private long timeLeftInMilliSeconds = 5000;
+    public CountDownTimer timer;
+    private long timeLeftInMilliSeconds = 15000;
     private boolean timeIsRunning;
     TestQuestionAdapter adapter;
     ViewPager viewPager;
@@ -89,12 +89,10 @@ public class TakeTestActivity extends AppCompatActivity {
         myDialog.setContentView(R.layout.time_expired_pop_up);
         btnOK = myDialog.findViewById(R.id.btnOk);
 
-
-
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
+                //intent to StudentUserSessionActivity; finish this activity;
             }
         });
         myDialog.show();

@@ -62,6 +62,14 @@ public class TestQuestionFragment extends Fragment {
        if(questionIndex == takeTestActivity.testAnswers.size()-1){
            btnSubmit.setVisibility(View.VISIBLE);
        }
+       
+       btnSubmit.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               takeTestActivity.timer.cancel();
+               //intent to studentUserSessionActivity;
+           }
+       });
 
         String message=getArguments().getString("index");
         return view;
