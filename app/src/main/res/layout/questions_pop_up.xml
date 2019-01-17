@@ -65,7 +65,7 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/QuestionLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +82,7 @@
                 android:inputType="textShortMessage"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
@@ -95,7 +95,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/Answer1"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etQuestion" />
 
@@ -112,7 +112,7 @@
                 android:inputType="textShortMessage"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAns1" />
@@ -125,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/Answer2"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAns1" />
 
@@ -142,7 +142,7 @@
                 android:inputType="textShortMessage"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAns2" />
@@ -155,7 +155,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/Answer3"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAns2" />
 
@@ -172,7 +172,7 @@
                 android:inputType="textShortMessage"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAns3" />
@@ -185,7 +185,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/Answer4"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAns3" />
 
@@ -202,7 +202,7 @@
                 android:inputType="textShortMessage"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -216,7 +216,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/CorrectAnswerLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAns4" />
 
@@ -238,7 +238,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/FeedbackLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinnerCorrectAns" />
 
@@ -255,7 +255,7 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -269,7 +269,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/CategoryLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etFeedbackQuestion" />
 
@@ -295,7 +295,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/DurationLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinnerCategoryPopUp" />
 
@@ -312,7 +312,7 @@
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/TransparentWhite"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -326,7 +326,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/MultipleLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etQuestionDuration" />
 
@@ -367,7 +367,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/OpenLabel"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rgMultiple" />
 
