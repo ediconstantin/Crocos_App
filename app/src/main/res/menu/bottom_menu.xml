@@ -13,8 +13,8 @@
         android:icon="@drawable/add_icon"
         android:title="@string/bottom_join_text" />
     <item
-        android:id="@+id/itmHistory"
+        android:id="@+id/itmAbout"
         android:checked="true"
-        android:icon="@drawable/history_icon"
-        android:title="@string/bottom_history_text" />
+        android:icon="@drawable/info_icon"
+        android:title="About" />
 </menu>

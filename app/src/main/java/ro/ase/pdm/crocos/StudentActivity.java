@@ -46,7 +46,7 @@ public class StudentActivity extends AppCompatActivity {
                     case R.id.itmProfile:
                         replaceFragment(profileFragment);
                         return true;
-                    case R.id.itmHistory:
+                    case R.id.itmAbout:
                         replaceFragment(historyFragment);
                         return true;
                         default:
