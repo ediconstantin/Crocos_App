@@ -52,7 +52,7 @@ public class SessionAdapter extends BaseAdapter {
         }
         Session session = sessions.get(position);
         holder = (ViewHolder)convertView.getTag();
-        holder.listItem.setText(session.getName());
+        holder.listItem.setText(session.getTestName());
         int status = session.getStatus();
         int resID;
         if(status==1){

@@ -28,6 +28,7 @@
         <activity android:name=".CreateSessionActivity" />
         <activity android:name=".SessionActivity" />
         <activity android:name=".TestActivity" />
+        <activity android:name=".UserSessionActivity"></activity>
         <activity android:name=".DetailedSessionActivity"></activity>
     </application>
 

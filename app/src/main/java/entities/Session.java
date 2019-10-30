@@ -1,10 +1,30 @@
 package entities;
 
-public class Session {
+import java.io.Serializable;
 
+public class Session implements Serializable {
+
+    private int id;
     private int status;
-    private String name;
+    private String testName;
+    private int startDate;
+    private int endDate;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
 
     public int getStatus() {
         return status;
@@ -14,16 +34,24 @@ public class Session {
         this.status = status;
     }
 
-    public String getName() {
-        return name;
+    public int getStartDate() {
+        return startDate;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStartDate(int startDate) {
+        this.startDate = startDate;
+    }
+
+    public int getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(int endDate) {
+        this.endDate = endDate;
     }
 
     @Override
     public String toString() {
-        return name;
+        return testName;
     }
 }

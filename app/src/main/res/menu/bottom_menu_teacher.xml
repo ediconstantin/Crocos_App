@@ -13,8 +13,8 @@
         android:icon="@drawable/quiz"
         android:title="@string/bottom_quiz_text" />
     <item
-        android:id="@+id/itmHistory"
+        android:id="@+id/itmSessions"
         android:checked="true"
-        android:icon="@drawable/history_icon"
-        android:title="@string/bottom_history_text" />
+        android:icon="@drawable/sessions_icon"
+        android:title="@string/Sessions" />
 </menu>

@@ -2,32 +2,43 @@ package entities;
 
 public class Student {
 
-    private String FirstName;
-    private String LastName;
-    private String Group;
+    private int userSessionId;
+    private String firstName;
+    private String lastName;
+    private String group;
 
+    public Student(){}
+
+    public int getUserSessionId() {
+        return userSessionId;
+    }
+
+    public void setUserSessionId(int userSessionId) {
+        this.userSessionId = userSessionId;
+    }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getGroup() {
-        return Group;
+        return group;
     }
 
     public void setGroup(String group) {
-        Group = group;
+        this.group = group;
     }
+
 }
